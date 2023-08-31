@@ -1,0 +1,13 @@
+wheel
+
+black
+isort
+
+requests
+
+PySide6
+
+bs4
+lxml
+
+deep-translator
