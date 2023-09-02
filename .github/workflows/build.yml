@@ -39,14 +39,14 @@ jobs:
           - os: macos-latest
             TARGET: macos
             CMD_BUILD: >
-              pyinstaller -F -w -n RimPyInstaller -i resources/icon.ico cli.py &&
+              pyinstaller -F -w -n RimPyInstaller -i resources/icon.ico main.py &&
               cd dist/ &&
               zip -r9 RimPyInstaller RimPyInstaller.app/
             OUT_FILE_NAME: RimPyInstaller.zip
             ASSET_MIME: application/zip
           - os: windows-latest
             TARGET: windows
-            CMD_BUILD: pyinstaller -F -w -n RimPyInstaller -i resources/icon.ico cli.py
+            CMD_BUILD: pyinstaller -F -w -n RimPyInstaller -i resources/icon.ico main.py
             OUT_FILE_NAME: RimPyInstaller.exe
             ASSET_MIME: application/vnd.microsoft.portable-executable
     steps:
