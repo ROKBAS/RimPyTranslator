@@ -11,6 +11,7 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
+from custom_widgets import QHLine
 from languages import Languages
 from lxml_creation import create_def_xml, create_keyed_xml
 from utils import initiate_settings, save_settings
@@ -28,27 +29,10 @@ TRUES_TYPING = ["True", "False", "TRUE", "FALSE", "true", "false"]
 SETTINGS_PATH = "settings.toml"
 
 
-class QHLine(QFrame):
-    def __init__(self, *args, **kwargs) -> None:
-        super(QHLine, self).__init__(*args, **kwargs)
-        self.setFrameShape(QFrame.HLine)
-        self.setFrameShadow(QFrame.Sunken)
-
-
-class QVLine(QFrame):
-    def __init__(self):
-        super(QVLine, self).__init__()
-        self.setFrameShape(QFrame.VLine)
-        self.setFrameShadow(QFrame.Sunken)
-
-
 class MainWindow(QMainWindow):
-    current_mods_folder = None
-    current_mod_path_list = None
-    current_mod_list = None
-
-    def __init__(self, width, height, settings):
+    def __init__(self, width: int, height: int, settings: dict):
         super().__init__()
+        self.setWindowIcon(QIcon('./resources/icon.ico'))
         self.settings = settings
         self.ignored_class_list: list[str] = settings["parser"]["ignored_class_list"]
         self.ignored_tag_list: list[str] = settings["parser"]["ignored_tag_list"]
@@ -133,7 +117,9 @@ class MainWindow(QMainWindow):
         )
         self.dev_layout.addWidget(translation_language_box)
         self.dev_layout.addWidget(QHLine(parent=self.edit_widget))
-        self.dev_layout.addWidget(QPushButton(text="Options", parent=self.edit_widget))
+        settings_widget = QPushButton(text="Options", parent=self.edit_widget)
+        settings_widget.setEnabled(False)
+        self.dev_layout.addWidget(settings_widget)
 
         self.current_mod_path_list = None
         self.current_mod_list = None
@@ -167,6 +153,51 @@ class MainWindow(QMainWindow):
             for version in range(0, 5):
                 self.analyze_mod(path_object, f"1.{version}")
 
+    def translate_strings(self):
+        current_item = self.strings_view.currentItem()
+        translated = GoogleTranslator(source="en", target="ru").translate(
+            current_item.text()
+        )
+        current_item.setText(translated)
+
+    def patch_mod(self):
+        dictionary_of_strings = {"Keyed": {}, "Defs": {}, "Strings": {}}
+        for row in range(self.strings_view.rowCount()):
+            _identifier = self.strings_view.item(row, 0).text()
+            _type = self.strings_view.item(row, 1).text()
+            _text = self.strings_view.item(row, 5).text()
+            # OriginalPath = self.strings_view.item(row, 6)
+            _futurePath = self.strings_view.item(row, 7).text()
+            if dictionary_of_strings[_type].get(_futurePath, None) is None:
+                dictionary_of_strings[_type][_futurePath] = []
+            dictionary_of_strings[_type][_futurePath].append((_identifier, _text))
+            for patch_path in list(dictionary_of_strings["Defs"].keys()):
+                create_def_xml(dictionary_of_strings["Defs"][patch_path], patch_path)
+            for patch_path in list(dictionary_of_strings["Keyed"].keys()):
+                create_keyed_xml(dictionary_of_strings["Keyed"][patch_path], patch_path)
+            for patch_path in list(dictionary_of_strings["Strings"].keys()):
+                logging.warning(patch_path)
+
+    def working_dirs(self, path_object: Path):
+        languages_path = path_object.joinpath("Languages")
+        if not languages_path.exists():
+            languages_path.mkdir(mode=777, exist_ok=True)
+        prefered_language = languages_path.joinpath("Russian")
+        if not prefered_language.exists():
+            prefered_language.mkdir(mode=777, exist_ok=True)
+        creator_language = languages_path.joinpath("English")
+        if not creator_language.exists():
+            creator_language.mkdir(mode=777, exist_ok=True)
+        return prefered_language, creator_language
+
+    def closeEvent(self, event: QCloseEvent):
+        self.settings["parser"]["ignored_class_list"] = self.ignored_class_list
+        self.settings["parser"]["ignored_tag_list"] = self.ignored_tag_list
+        self.settings["window"]["screen_size"] = f"{self.width()}x{self.height()}"
+        self.settings["window"]["app_position"] = f"{self.x()},{self.y()}"
+        save_settings(self.settings, SETTINGS_PATH)
+        event.accept()
+
     def analyze_base_mod(self, path_object: Path):
         if path_object.joinpath("Defs").exists():
             self.analyze_defs(path_object)
@@ -183,18 +214,6 @@ class MainWindow(QMainWindow):
                 self.analyze_keyed(path_object.joinpath(version))
                 self.analyze_strings(path_object.joinpath(version))
         logging.info(f"Analyzed version {version}.")
-
-    def working_dirs(self, path_object):
-        languages_path = path_object.joinpath("Languages")
-        if not languages_path.exists():
-            languages_path.mkdir(mode=777, exist_ok=True)
-        prefered_language = languages_path.joinpath("Russian")
-        if not prefered_language.exists():
-            prefered_language.mkdir(mode=777, exist_ok=True)
-        creator_language = languages_path.joinpath("English")
-        if not creator_language.exists():
-            creator_language.mkdir(mode=777, exist_ok=True)
-        return prefered_language, creator_language
 
     def analyze_defs(self, root_dir: Path):
         prefered_path, _ = self.working_dirs(root_dir)
@@ -329,7 +348,7 @@ class MainWindow(QMainWindow):
             defs_paths = list(Path(def_path).iterdir())  # пройдемся по путям в папке
             defs_names = [str(_.name) for _ in defs_paths]  # сформируем новые имена
             for _def_name, _def_path in zip(defs_names, defs_paths):
-                self.inject_translation_files(
+                self.inject_translation_keyed_files(
                     _def_path, injected_def_path.joinpath(f"{_def_name}")
                 )
         elif def_path.is_file():
@@ -382,43 +401,11 @@ class MainWindow(QMainWindow):
             local_injected_def_path = injected_strings.joinpath(f"{def_name}")
             self.inject_translation_files(def_path, local_injected_def_path)
 
-    def translate_strings(self):
-        current_item = self.strings_view.currentItem()
-        translated = GoogleTranslator(source="en", target="ru").translate(
-            current_item.text()
-        )
-        current_item.setText(translated)
-
-    def patch_mod(self):
-        dictionary_of_strings = {"Keyed": {}, "Defs": {}, "Strings": {}}
-        for row in range(self.strings_view.rowCount()):
-            _identifier = self.strings_view.item(row, 0).text()
-            _type = self.strings_view.item(row, 1).text()
-            _text = self.strings_view.item(row, 5).text()
-            # OriginalPath = self.strings_view.item(row, 6)
-            _futurePath = self.strings_view.item(row, 7).text()
-            if dictionary_of_strings[_type].get(_futurePath, None) is None:
-                dictionary_of_strings[_type][_futurePath] = []
-            dictionary_of_strings[_type][_futurePath].append((_identifier, _text))
-            for patch_path in list(dictionary_of_strings["Defs"].keys()):
-                create_def_xml(dictionary_of_strings["Defs"][patch_path], patch_path)
-            for patch_path in list(dictionary_of_strings["Keyed"].keys()):
-                create_keyed_xml(dictionary_of_strings["Keyed"][patch_path], patch_path)
-            for patch_path in list(dictionary_of_strings["Strings"].keys()):
-                logging.warning(patch_path)
-
-    def closeEvent(self, event):
-        self.settings["parser"]["ignored_class_list"] = self.ignored_class_list
-        self.settings["parser"]["ignored_tag_list"] = self.ignored_tag_list
-        self.settings["window"]["screen_size"] = f"{self.width()}x{self.height()}"
-        self.settings["window"]["app_position"] = f"{self.x()},{self.y()}"
-        save_settings(self.settings, SETTINGS_PATH)
-        event.accept()
-
 
 if __name__ == "__main__":
     settings = initiate_settings(SETTINGS_PATH)
     app = QApplication(sys.argv)
+    app.setApplicationName("RimPyTranslator")
     width, height = app.screens()[0].size().toTuple()
     main_window = MainWindow(width, height, settings)
     main_window.show()
