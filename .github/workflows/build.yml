@@ -41,7 +41,7 @@ jobs:
           - os: macos-latest
             TARGET: macos
             CMD_BUILD: >
-              pyinstaller -F -w -n RimPyInstaller -i resources/icon.ico main.py &&
+              pyinstaller -F -w -n RimPyInstaller -i resources/icon.icns main.py &&
               cd dist/ &&
               zip -r9 RimPyInstaller RimPyInstaller.app/
             OUT_FILE_NAME: RimPyInstaller.zip
