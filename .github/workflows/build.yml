@@ -41,15 +41,15 @@ jobs:
           - os: macos-latest
             TARGET: macos
             CMD_BUILD: >
-              pyinstaller -F -w -n RimPyInstaller -i resources/icon.ico main.py &&
+              pyinstaller -F -w -n RimPyTranslator -i resources/icon.ico main.py &&
               cd dist/ &&
-              zip -r9 RimPyInstaller RimPyInstaller.app/
-            OUT_FILE_NAME: RimPyInstaller.zip
+              zip -r9 RimPyTranslator RimPyTranslator.app/
+            OUT_FILE_NAME: RimPyTranslator.zip
             ASSET_MIME: application/zip
           - os: windows-latest
             TARGET: windows
-            CMD_BUILD: pyinstaller -F -w -n RimPyInstaller -i resources/icon.ico main.py
-            OUT_FILE_NAME: RimPyInstaller.exe
+            CMD_BUILD: pyinstaller -F -w -n RimPyTranslator -i resources/icon.ico main.py
+            OUT_FILE_NAME: RimPyTranslator.exe
             ASSET_MIME: application/vnd.microsoft.portable-executable
     steps:
       - uses: actions/checkout@v1
