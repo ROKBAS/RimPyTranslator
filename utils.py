@@ -15,3 +15,8 @@ def initiate_settings(name):
     with open(name, "rb") as f:
         settings = tomllib.load(f)
     return settings
+
+
+def save_settings(settings, path):
+    with open(path, "wb+") as f:
+        tomli_w.dump(settings, f)

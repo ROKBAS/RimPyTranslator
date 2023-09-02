@@ -1,6 +1,6 @@
 [window]
-screen_size = "1280x720"
-app_position = "0,0"
+screen_size = "1385x844"
+app_position = "398,234"
 
 [parser]
 ignored_class_list = [

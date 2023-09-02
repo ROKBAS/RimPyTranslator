@@ -5,29 +5,27 @@ import sys
 from pathlib import Path
 
 from bs4 import BeautifulSoup as bs
+from deep_translator import GoogleTranslator
+from lxml import etree
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-from lxml import etree
-from languages import Languages
-from utils import initiate_settings
 
-# self.current_mod_folder.rglob("*") - find all files recursevly with pattern
-# https://realpython.com/get-all-files-in-directory-python/#recursively-listing-with-rglob
-version = "0.0.1"
+from languages import Languages
+from lxml_creation import create_def_xml, create_keyed_xml
+from utils import initiate_settings, save_settings
+
 if os.path.exists("RimPyTranslate.log"):
     os.remove("RimPyTranslate.log")
+version = "0.0.1"
+parser = etree.XMLParser(remove_comments=True)
 log_level = logging.DEBUG
 logging.basicConfig(
     format="%(levelname)s: %(message)s", level=log_level, filename="RimPyTranslate.log"
 )
 logger = logging.getLogger(__name__)
 TRUES_TYPING = ["True", "False", "TRUE", "FALSE", "true", "false"]
-from deep_translator import GoogleTranslator
-
-from lxml_creation import create_def_xml, create_keyed_xml
-
-parser = etree.XMLParser(remove_comments=True)
+SETTINGS_PATH = "settings.toml"
 
 
 class QHLine(QFrame):
@@ -87,6 +85,8 @@ class MainWindow(QMainWindow):
             ]
         )
         self.current_mods_folder = self.start_dir.joinpath("mods")
+        if not self.current_mods_folder.exists():
+            self.current_mods_folder.mkdir(mode=777, exist_ok=True)
         mods_toolbar = QToolBar("Mods Folder", widget)
         open_mods_button = QPushButton(text="Select mods folder")
         open_mods_button.clicked.connect(self.open_file_dialog_mods)
@@ -407,9 +407,17 @@ class MainWindow(QMainWindow):
             for patch_path in list(dictionary_of_strings["Strings"].keys()):
                 logging.warning(patch_path)
 
+    def closeEvent(self, event):
+        self.settings["parser"]["ignored_class_list"] = self.ignored_class_list
+        self.settings["parser"]["ignored_tag_list"] = self.ignored_tag_list
+        self.settings["window"]["screen_size"] = f"{self.width()}x{self.height()}"
+        self.settings["window"]["app_position"] = f"{self.x()},{self.y()}"
+        save_settings(self.settings, SETTINGS_PATH)
+        event.accept()
+
 
 if __name__ == "__main__":
-    settings = initiate_settings("settings.toml")
+    settings = initiate_settings(SETTINGS_PATH)
     app = QApplication(sys.argv)
     width, height = app.screens()[0].size().toTuple()
     main_window = MainWindow(width, height, settings)
