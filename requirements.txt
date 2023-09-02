@@ -4,6 +4,7 @@ black
 isort
 
 requests
+tomli-w
 
 PySide6
 

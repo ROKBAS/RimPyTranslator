@@ -2,12 +2,13 @@ from enum import Enum
 
 
 class Languages(Enum):
+    en = "English"
+    ru = "Russian"
     zh_cn = "ChineseSimplified"
     zh_tw = "ChineseTraditional"
     cs = "Czech"
     da = "Danish"
     nl = "Dutch"
-    en = "English"
     et = "Estonian"
     fi = "Finnish"
     fr = "French"
@@ -21,7 +22,6 @@ class Languages(Enum):
     pt = "Portuguese"
     pt_br = "PortugueseBrazilian"
     ro = "Romanian"
-    ru = "Russian"
     sk = "Slovak"
     es = "Spanish"
     es_la = "SpanishLatin"
