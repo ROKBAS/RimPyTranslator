@@ -92,11 +92,11 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.patch_button = QPushButton(text="Patch", parent=self.edit_widget)
         self.dev_layout.addWidget(self.patch_button)
         self.ign_cs_button = QPushButton(
-            text="Add to ignored classes", parent=self.edit_widget
+            text="Add to def ignored tags", parent=self.edit_widget
         )
         self.dev_layout.addWidget(self.ign_cs_button)
         self.ign_tags_button = QPushButton(
-            text="Add to ignored tags", parent=self.edit_widget
+            text="Add to ignored tags list", parent=self.edit_widget
         )
         self.dev_layout.addWidget(self.ign_tags_button)
         self.highligth_untranslated_mods_button = QPushButton(
