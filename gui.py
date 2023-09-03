@@ -9,7 +9,7 @@ from languages import Languages
 from utils import SETTINGS_PATH, save_settings
 
 
-class Gui(QMainWindow): # Made GUI Base class for all logic
+class Gui(QMainWindow):  # Made GUI Base class for all logic
     def __init__(self, width: int, height: int, settings: dict):
         super().__init__()
         self.setWindowIcon(QIcon("./resources/icon.ico"))

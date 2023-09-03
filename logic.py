@@ -16,7 +16,8 @@ from utils import TRUES_TYPING
 logger = logging.getLogger(__name__)
 parser = etree.XMLParser(remove_comments=True)
 
-class Logic(Gui): # TODO: Refactor
+
+class Logic(Gui):  # TODO: Refactor
     def __init__(self, width: int, height: int, settings: dict):
         super().__init__(width, height, settings)
         self.open_mods_button.clicked.connect(self.open_file_dialog_mods)
