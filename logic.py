@@ -4,9 +4,7 @@ from pathlib import Path
 from typing import List
 
 from deep_translator import GoogleTranslator
-from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
+from PySide6.QtWidgets import QFileDialog
 
 from analyzers.defs import DefAnalyzer
 from analyzers.keyed import KeyedAnalyzer
