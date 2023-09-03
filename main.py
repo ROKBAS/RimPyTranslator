@@ -10,7 +10,7 @@ from utils import SETTINGS_PATH, initiate_settings
 if os.path.exists("RimPyTranslate.log"):
     os.remove("RimPyTranslate.log")
 
-version = "0.2.5"
+version = "0.2.6"
 log_level = logging.DEBUG
 logging.basicConfig(
     format="%(levelname)s: %(message)s", level=log_level, filename="RimPyTranslate.log"
