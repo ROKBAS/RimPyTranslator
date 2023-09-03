@@ -6,7 +6,8 @@ DEFAULT_CONFIG = {
     "window": {"screen_size": "1280x720", "app_position": "0,0"},
     "parser": {"ignored_class_list": [], "ignored_tag_list": []},
 }
-
+TRUES_TYPING = ["True", "False", "TRUE", "FALSE", "true", "false"]
+SETTINGS_PATH = "settings.toml"
 
 def initiate_settings(name):
     if not os.path.exists(name):
