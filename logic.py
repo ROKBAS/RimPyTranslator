@@ -15,7 +15,7 @@ from gui import Gui
 logger = logging.getLogger(__name__)
 
 
-class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):  # TODO: Refactor
+class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
     def __init__(self, width: int, height: int, settings: dict):
         super().__init__(width, height, settings)
         self.current_mods_folder = self.start_dir.joinpath("mods")
