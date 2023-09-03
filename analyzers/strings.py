@@ -24,7 +24,7 @@ class StringsAnalyzer(Analyzer):
             injected_strings.mkdir(mode=777, exist_ok=True)
         for def_name, def_path in zip(strings_names, strings_paths):
             local_injected_def_path = injected_strings.joinpath(f"{def_name}")
-            self.inject_translation_files(def_path, local_injected_def_path)
+            self.inject_translation_strings_files(def_path, local_injected_def_path)
 
     def create_translation_files_strings(
         self, original_file_path: Path, translation_file_path: Path
