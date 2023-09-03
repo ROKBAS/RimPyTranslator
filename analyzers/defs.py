@@ -44,40 +44,43 @@ class DefAnalyzer(Analyzer):
         for _def in _defs:
             if _def is None:
                 continue
-            lines = [
-                (
-                    str(tree.getpath(tag))
-                    .replace("]/", ".")
-                    .replace("[", ".")
-                    .replace("/", ".")
-                    .replace("]", ".")
-                    .strip()
-                    .strip("."),
-                    str(tag.text),
-                    str(tag.tag),
-                )
-                for tag in _def.iter()
-                if tag is not None
-                and str(tag.text) is not None
-                and re.sub(r"\s", "", str(tag.text))
-                and not re.match("^[-+]?[0-9\.\ ]*$", str(tag.text))
-                and str(tag.text) not in TRUES_TYPING
-                and str(tag.tag) not in self.ignored_tag_list
-            ]
-            class_name = _def.find(".//defName")
-            if class_name is None:
-                class_name = "Unknown Class"
-            else:
-                class_name = str(class_name.text)
+            lines = []
+            for tag in _def.iter():
+                if (
+                    tag is not None
+                    and str(tag.text) is not None
+                    and re.sub(r"\s", "", str(tag.text))
+                    and not re.match("^[-+]?[0-9\.\ ]*$", str(tag.text))
+                    and str(tag.text) not in TRUES_TYPING
+                    and str(tag.tag) not in self.ignored_tag_list
+                    and str(tag.getparent().tag) not in self.ignored_tag_list
+                ):
+                    class_name = _def.find(".//defName")
+                    if class_name is None:
+                        class_name = str(tag.getparent().tag)
+                    else:
+                        class_name = str(class_name.text)
+                    _id_of_sected_tag = str(tree.getpath(tag)).replace("]/", ".").replace("[", ".").replace("/", ".").replace("]", ".").strip().strip(".") # Containts Def. at start
+                    lines.append(
+                        (
+                            _id_of_sected_tag[5:],
+                            str(tag.text),
+                            str(tag.tag)
+                            if str(tag.tag) != "li"
+                            else str(tag.getparent().tag),
+                        )
+                    )
             for _id, string, tag_name in lines:
-                found_forbidden_class_bool = False
-                for _class in self.ignored_class_list:
-                    if _id.find(_class) != -1:
-                        found_forbidden_class_bool = True
+                found_forbidden_tag_in_class_bool = False
+                for _def_name, _tag_def_list in self.ignored_def_tags.items():
+                    if _id.find(_def_name) > -1:
+                        for _tag in _tag_def_list:
+                            if _id.find(_tag) != -1:
+                                found_forbidden_tag_in_class_bool = True
+                                break
+                    if found_forbidden_tag_in_class_bool:
                         break
-                if found_forbidden_class_bool:
-                    continue
-                if tag_name.find("Def") != -1:
+                if found_forbidden_tag_in_class_bool:
                     continue
                 row = self.strings_view.rowCount()
                 self.strings_view.insertRow(row)
@@ -88,10 +91,10 @@ class DefAnalyzer(Analyzer):
                 _type_item.setFlags(Qt.ItemFlag.ItemIsEditable)
                 self.strings_view.setItem(row, 1, _type_item)
                 _tag_name_item = QTableWidgetItem(tag_name)
-                _tag_name_item.setFlags(Qt.ItemFlag.ItemIsEditable),
+                # _tag_name_item.setFlags(Qt.ItemFlag.ItemIsEnabled),
                 self.strings_view.setItem(row, 2, _tag_name_item)
                 cs_name_item = QTableWidgetItem(class_name)
-                cs_name_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+                # cs_name_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
                 self.strings_view.setItem(row, 3, cs_name_item)
                 ol_string_item = QTableWidgetItem(string)
                 ol_string_item.setFlags(Qt.ItemFlag.ItemIsEditable)

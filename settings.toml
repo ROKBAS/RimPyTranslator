@@ -3,64 +3,6 @@ screen_size = "1280x720"
 app_position = "50,50"
 
 [parser]
-ignored_class_list = [
-    "AgeConfigDef",
-    "BoundBodyPartGroupDefs",
-    "BuildableDef",
-    "DesignationDef",
-    "DutyDef",
-    "EffecterDef",
-    "GenStepDef",
-    "HediffTargetBodyPartDefs",
-    "JoyGiverDef",
-    "MainButtonDef",
-    "MapGeneratorDef",
-    "PawnColumnDef",
-    "PawnGroupKindDef",
-    "PawnTableDef",
-    "RaceGroupDef",
-    "RuleDef",
-    "ScatterableDef",
-    "SongDef",
-    "SoundDef",
-    "SoundDef",
-    "StringListDef",
-    "Tags",
-    "ThinkTreeDef",
-    "allowedMeditationFocusTypes",
-    "apparel",
-    "appliedOnFixedBodyParts",
-    "backstoryCategories",
-    "bodyTypeFemale",
-    "bodyTypeGlobal",
-    "bodyTypeMale",
-    "childrenDefs",
-    "conflictingTraits",
-    "diseasePartsToAffect",
-    "fixedIngredientFilter",
-    "ingredients",
-    "modExtensions",
-    "parentDefs",
-    "pawnKindNames",
-    "prerequisites",
-    "raceNames",
-    "randomMentalStateMtbDaysMoodCurve",
-    "recipeMaker",
-    "recipeUsers",
-    "requiredResearchFacilities",
-    "rulesFiles",
-    "severityCurve",
-    "severityPerDayIncrease",
-    "severityPerDayReduce",
-    "skillGains",
-    "skillNeedFactors",
-    "soldThoughts",
-    "spawnCategories",
-    "stuffCategories",
-    "tags",
-    "thingCategories",
-    "thinkRoot",
-]
 ignored_tag_list = [
     "DefaultBodyPart",
     "FluidType",
@@ -181,4 +123,81 @@ ignored_tag_list = [
     "workSkill",
     "workSpeedStat",
     "workerClass",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "ThingDef"
+tag_list = [
+    "soundPowerOff",
+    "soundPowerOn",
+    "inspectorTabs",
+    "fleshType",
+    "bloodDef",
+    "label",
+    "capacities",
+    "linkedBodyPartsGroup",
+    "intelligence",
+    "thinkTreeMain",
+    "thinkTreeConstant",
+    "body",
+    "soundCallIntervalRange",
+    "soundMeleeHitPawn",
+    "soundMeleeHitBuilding",
+    "soundMeleeMiss",
+    "comps",
+    "recipeUsers",
+    "thingCategories",
+    "tradeTags",
+    "thingSetMakerTags",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "PawnKindDef"
+tag_list = [
+    "race",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "FleshTypeDef"
+tag_list = [
+    "corpseCategory",
+    "damageEffecter",
+    "texture",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "BodyPartDef"
+tag_list = [
+    "tags",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "BodyDef"
+tag_list = [
+    "height",
+    "depth",
+    "groups",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "WorkGiverDef"
+tag_list = [
+    "giverClass",
+    "workType",
+    "requiredCapacities",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "SoundDef"
+tag_list = [
+    "context",
+    "clipFolderPath",
+    "priorityMode",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "ThinkTreeDef"
+tag_list = [
+    "treeDef",
+    "subNodes",
 ]

@@ -2,10 +2,21 @@ from pathlib import Path
 
 from PySide6.QtCore import QPoint, QSize
 from PySide6.QtGui import QCloseEvent, QIcon, Qt
-from PySide6.QtWidgets import (QComboBox, QFormLayout, QHBoxLayout, QLabel,
-                               QLineEdit, QListWidget, QMainWindow,
-                               QPushButton, QSizePolicy, QStatusBar,
-                               QTableWidget, QToolBar, QWidget)
+from PySide6.QtWidgets import (
+    QComboBox,
+    QFormLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QListWidget,
+    QMainWindow,
+    QPushButton,
+    QSizePolicy,
+    QStatusBar,
+    QTableWidget,
+    QToolBar,
+    QWidget,
+)
 
 from custom_widgets import QHLine
 from languages import Languages
@@ -17,7 +28,10 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         super().__init__()
         self.setWindowIcon(QIcon("./resources/icon.ico"))
         self.settings = settings
-        self.ignored_class_list: list[str] = settings["parser"]["ignored_class_list"]
+        _ignored_def_tags = settings["parser"].get("ignored_def_tags", {})
+        self.ignored_def_tags: dict = {
+            f'{item["def_name"]}': item["tag_list"] for item in _ignored_def_tags
+        }
         self.ignored_tag_list: list[str] = settings["parser"]["ignored_tag_list"]
         _width, _height = self.settings["window"]["screen_size"].split("x")
         _a_x, _a_y = self.settings["window"]["app_position"].split(",")
@@ -77,6 +91,14 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.dev_layout.addWidget(self.translate_button)
         self.patch_button = QPushButton(text="Patch", parent=self.edit_widget)
         self.dev_layout.addWidget(self.patch_button)
+        self.ign_cs_button = QPushButton(
+            text="Add to ignored classes", parent=self.edit_widget
+        )
+        self.dev_layout.addWidget(self.ign_cs_button)
+        self.ign_tags_button = QPushButton(
+            text="Add to ignored tags", parent=self.edit_widget
+        )
+        self.dev_layout.addWidget(self.ign_tags_button)
         self.highligth_untranslated_mods_button = QPushButton(
             text="Highlight untranslated mods", parent=self.edit_widget
         )
@@ -98,7 +120,10 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.dev_layout.addWidget(self.settings_button)
 
     def closeEvent(self, event: QCloseEvent):
-        self.settings["parser"]["ignored_class_list"] = sorted(self.ignored_class_list)
+        self.settings["parser"]["ignored_def_tags"] = [
+            {"def_name": _def_name, "tag_list": _tag_list}
+            for _def_name, _tag_list in self.ignored_def_tags.items()
+        ]
         self.settings["parser"]["ignored_tag_list"] = sorted(self.ignored_tag_list)
         self.settings["window"]["screen_size"] = f"{self.width()}x{self.height()}"
         self.settings["window"]["app_position"] = f"{self.x()},{self.y()}"

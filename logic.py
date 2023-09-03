@@ -28,7 +28,28 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
         self.prepare_button.clicked.connect(self.prepare_mod)
         self.translate_button.clicked.connect(self.translate_strings)
         self.patch_button.clicked.connect(self.patch_mod)
+        self.ign_cs_button.clicked.connect(self.add_to_ignored_classes)
+        self.ign_tags_button.clicked.connect(self.add_to_ignored_tags)
         self.pick_mods()
+        self.prepare_mod()
+
+    def add_to_ignored_classes(self):
+        for item in self.strings_view.selectedItems():
+            row = item.row()
+            _def_name = self.strings_view.item(row, 0).text().split(".")[0]
+            _tag_name = item.text()
+            if self.ignored_def_tags.get(_def_name, None) is None:
+                self.ignored_def_tags[_def_name] = [_tag_name]
+            else:
+                self.ignored_def_tags[_def_name].append(_tag_name)
+            print(f"Added {_tag_name} from {_def_name} to ignored def name list.")
+            print(f"Current ignored list: {self.ignored_def_tags}")
+        self.prepare_mod()
+
+    def add_to_ignored_tags(self):
+        for item in self.strings_view.selectedItems():
+            self.ignored_tag_list.append(item.text())
+            print(f"Added {item.text()} to ignored tags list.")
         self.prepare_mod()
 
     def open_file_dialog_mods(self):
