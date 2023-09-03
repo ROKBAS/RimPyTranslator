@@ -1,8 +1,21 @@
 from pathlib import Path
 
-from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
+from PySide6.QtGui import QCloseEvent, QIcon, Qt
+from PySide6.QtWidgets import (
+    QComboBox,
+    QFormLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QListWidget,
+    QMainWindow,
+    QPushButton,
+    QSizePolicy,
+    QStatusBar,
+    QTableWidget,
+    QToolBar,
+    QWidget,
+)
 
 from custom_widgets import QHLine
 from languages import Languages
@@ -49,6 +62,7 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.mods_toolbar = QToolBar("Mods Folder", self._central_widget)
         self.open_mods_button = QPushButton(text="Select mods folder")
         self.edit_mods_config_text = QLineEdit()
+
         self.mods_toolbar.addWidget(self.open_mods_button)
         self.mods_toolbar.addWidget(self.edit_mods_config_text)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.mods_toolbar)
