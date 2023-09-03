@@ -73,13 +73,15 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
             self.translation_language_box.addItem(item.name)
         self.prepare_button = QPushButton(text="Prepare", parent=self.edit_widget)
         self.dev_layout.addWidget(self.prepare_button)
-        self.translate_button = QPushButton(text="Tranlsate", parent=self.edit_widget)
+        self.translate_button = QPushButton(text="Translate", parent=self.edit_widget)
         self.dev_layout.addWidget(self.translate_button)
         self.patch_button = QPushButton(text="Patch", parent=self.edit_widget)
         self.dev_layout.addWidget(self.patch_button)
-        self.dev_layout.addWidget(
-            QPushButton(text="Highlight untranslated mods", parent=self.edit_widget)
+        self.highligth_untranslated_mods_button = QPushButton(
+            text="Highlight untranslated mods", parent=self.edit_widget
         )
+        self.highligth_untranslated_mods_button.setEnabled(False)
+        self.dev_layout.addWidget(self.highligth_untranslated_mods_button)
         self.dev_layout.addWidget(QHLine(parent=self.edit_widget))
         self.dev_layout.addWidget(
             QLabel(text="Selectel original language", parent=self.edit_widget)
@@ -96,8 +98,8 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.dev_layout.addWidget(self.settings_button)
 
     def closeEvent(self, event: QCloseEvent):
-        self.settings["parser"]["ignored_class_list"] = self.ignored_class_list
-        self.settings["parser"]["ignored_tag_list"] = self.ignored_tag_list
+        self.settings["parser"]["ignored_class_list"] = sorted(self.ignored_class_list)
+        self.settings["parser"]["ignored_tag_list"] = sorted(self.ignored_tag_list)
         self.settings["window"]["screen_size"] = f"{self.width()}x{self.height()}"
         self.settings["window"]["app_position"] = f"{self.x()},{self.y()}"
         save_settings(self.settings, SETTINGS_PATH)
