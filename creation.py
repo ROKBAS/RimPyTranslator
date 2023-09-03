@@ -15,3 +15,7 @@ def create_keyed_xml(keyed_strings, path):
         _string = ET.SubElement(root, _id)
         _string.text = string
     ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True, short_empty_elements=False)
+
+def create_strings_text(string_strings, path):
+    with open(path, "w+") as file:
+        file.writelines(string_strings)

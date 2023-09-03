@@ -11,7 +11,7 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 from gui import Gui
-from lxml_creation import create_def_xml, create_keyed_xml
+from creation import create_def_xml, create_keyed_xml
 from utils import TRUES_TYPING
 
 logger = logging.getLogger(__name__)
