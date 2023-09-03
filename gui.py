@@ -28,8 +28,8 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
             QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
         )
         self.setCentralWidget(self._central_widget)
-        statusBar = QStatusBar(self._central_widget)
-        self.setStatusBar(statusBar)
+        self._status_bar = QStatusBar(self._central_widget)
+        self.setStatusBar(self._status_bar)
         self.start_dir = Path(__file__).resolve().parent
         self.file_list = QListWidget(self._central_widget)
         self.strings_view = QTableWidget(self._central_widget)
@@ -46,30 +46,27 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
                 "FuturePath",  # 7
             ]
         )
-        self.current_mods_folder = self.start_dir.joinpath("mods")
-        if not self.current_mods_folder.exists():
-            self.current_mods_folder.mkdir(mode=777, exist_ok=True)
-        mods_toolbar = QToolBar("Mods Folder", self._central_widget)
+        self.mods_toolbar = QToolBar("Mods Folder", self._central_widget)
         self.open_mods_button = QPushButton(text="Select mods folder")
         self.edit_mods_config_text = QLineEdit()
         self.edit_mods_config_text.setText(f"{self.current_mods_folder}")
-        mods_toolbar.addWidget(self.open_mods_button)
-        mods_toolbar.addWidget(self.edit_mods_config_text)
-        self.addToolBar(Qt.ToolBarArea.TopToolBarArea, mods_toolbar)
-        layout = QHBoxLayout(self._central_widget)
-        layout.setSpacing(0)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(self.file_list, 1)
-        layout.addWidget(self.strings_view, 2)
+        self.mods_toolbar.addWidget(self.open_mods_button)
+        self.mods_toolbar.addWidget(self.edit_mods_config_text)
+        self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.mods_toolbar)
+        self._central_layout = QHBoxLayout(self._central_widget)
+        self._central_layout.setSpacing(0)
+        self._central_layout.setContentsMargins(0, 0, 0, 0)
+        self._central_layout.addWidget(self.file_list, 1)
+        self._central_layout.addWidget(self.strings_view, 2)
         self.edit_widget = QWidget()
-        layout.addWidget(self.edit_widget)
+        self._central_layout.addWidget(self.edit_widget)
         self.dev_layout = QFormLayout(self.edit_widget)
-        original_language_box = QComboBox(self.edit_widget)
+        self.original_language_box = QComboBox(self.edit_widget)
         for item in Languages:
-            original_language_box.addItem(item.name)
-        translation_language_box = QComboBox(self.edit_widget)
+            self.original_language_box.addItem(item.name)
+        self.translation_language_box = QComboBox(self.edit_widget)
         for item in Languages:
-            translation_language_box.addItem(item.name)
+            self.translation_language_box.addItem(item.name)
         self.prepare_button = QPushButton(text="Prepare", parent=self.edit_widget)
         self.dev_layout.addWidget(self.prepare_button)
         self.translate_button = QPushButton(text="Tranlsate", parent=self.edit_widget)
@@ -83,18 +80,16 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.dev_layout.addWidget(
             QLabel(text="Selectel original language", parent=self.edit_widget)
         )
-        self.dev_layout.addWidget(original_language_box)
+        self.dev_layout.addWidget(self.original_language_box)
         self.dev_layout.addWidget(QHLine(parent=self.edit_widget))
         self.dev_layout.addWidget(
             QLabel(text="Selectel preferred language", parent=self.edit_widget)
         )
-        self.dev_layout.addWidget(translation_language_box)
+        self.dev_layout.addWidget(self.translation_language_box)
         self.dev_layout.addWidget(QHLine(parent=self.edit_widget))
-        settings_widget = QPushButton(text="Options", parent=self.edit_widget)
-        settings_widget.setEnabled(False)
-        self.dev_layout.addWidget(settings_widget)
-        self.current_mod_path_list = None
-        self.current_mod_list = None
+        self.settings_button = QPushButton(text="Options", parent=self.edit_widget)
+        self.settings_button.setEnabled(False)
+        self.dev_layout.addWidget(self.settings_button)
 
     def closeEvent(self, event: QCloseEvent):
         self.settings["parser"]["ignored_class_list"] = self.ignored_class_list

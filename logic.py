@@ -1,6 +1,7 @@
 import logging
 import re
 from pathlib import Path
+from typing import List
 
 from bs4 import BeautifulSoup as bs
 from deep_translator import GoogleTranslator
@@ -20,6 +21,12 @@ parser = etree.XMLParser(remove_comments=True)
 class Logic(Gui):  # TODO: Refactor
     def __init__(self, width: int, height: int, settings: dict):
         super().__init__(width, height, settings)
+        self.current_mods_folder = self.start_dir.joinpath("mods")
+        if not self.current_mods_folder.exists():
+            self.current_mods_folder.mkdir(mode=777, exist_ok=True)
+        self.current_mod_path_list: List[str] | None = None
+        self.current_mod_list: List[str] | None = None
+
         self.open_mods_button.clicked.connect(self.open_file_dialog_mods)
         self.prepare_button.clicked.connect(self.prepare_mod)
         self.translate_button.clicked.connect(self.translate_strings)
