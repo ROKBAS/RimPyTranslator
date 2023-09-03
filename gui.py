@@ -49,7 +49,6 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.mods_toolbar = QToolBar("Mods Folder", self._central_widget)
         self.open_mods_button = QPushButton(text="Select mods folder")
         self.edit_mods_config_text = QLineEdit()
-        self.edit_mods_config_text.setText(f"{self.current_mods_folder}")
         self.mods_toolbar.addWidget(self.open_mods_button)
         self.mods_toolbar.addWidget(self.edit_mods_config_text)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.mods_toolbar)

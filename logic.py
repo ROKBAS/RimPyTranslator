@@ -26,7 +26,7 @@ class Logic(Gui):  # TODO: Refactor
             self.current_mods_folder.mkdir(mode=777, exist_ok=True)
         self.current_mod_path_list: List[str] | None = None
         self.current_mod_list: List[str] | None = None
-
+        self.edit_mods_config_text.setText(f"{self.current_mods_folder}")
         self.open_mods_button.clicked.connect(self.open_file_dialog_mods)
         self.prepare_button.clicked.connect(self.prepare_mod)
         self.translate_button.clicked.connect(self.translate_strings)
