@@ -1,21 +1,11 @@
 from pathlib import Path
 
+from PySide6.QtCore import QPoint, QSize
 from PySide6.QtGui import QCloseEvent, QIcon, Qt
-from PySide6.QtWidgets import (
-    QComboBox,
-    QFormLayout,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QListWidget,
-    QMainWindow,
-    QPushButton,
-    QSizePolicy,
-    QStatusBar,
-    QTableWidget,
-    QToolBar,
-    QWidget,
-)
+from PySide6.QtWidgets import (QComboBox, QFormLayout, QHBoxLayout, QLabel,
+                               QLineEdit, QListWidget, QMainWindow,
+                               QPushButton, QSizePolicy, QStatusBar,
+                               QTableWidget, QToolBar, QWidget)
 
 from custom_widgets import QHLine
 from languages import Languages
@@ -35,7 +25,8 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.app_height = int(_height) if _height else height
         self.app_x = int(_a_x) if width else 0
         self.app_y = int(_a_y) if width else 0
-        self.setGeometry(self.app_x, self.app_y, self.app_width, self.app_height)
+        self.resize(QSize(self.app_width, self.app_height))
+        self.move(QPoint(self.app_x, self.app_y))
         self._central_widget = QWidget()
         self._central_widget.setSizePolicy(
             QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
