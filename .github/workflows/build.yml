@@ -52,18 +52,12 @@ jobs:
             OUT_FILE_NAME: RimPyTranslator.exe
             ASSET_MIME: application/vnd.microsoft.portable-executable
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: "3.11"
           cache: "pip"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install --upgrade pyinstaller
-          pip install --upgrade Pillow
+      - run: pip install -r requirements.txt
       - name: Build with pyinstaller for ${{matrix.TARGET}}
         run: ${{matrix.CMD_BUILD}}
       - name: Load Release URL File from release job
