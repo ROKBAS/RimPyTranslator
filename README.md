@@ -1,6 +1,6 @@
 # RimPyTranslator
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/ROKBAS/RimPyTranslator/build.yml)
-![License](https://img.shields.io/github/license/ROKBAS/RimPyTranslator)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 ![GitHub all releases](https://img.shields.io/github/downloads/ROKBAS/RimPyTranslator/total)
 
 ## Features
