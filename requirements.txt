@@ -12,4 +12,6 @@ bs4
 lxml
 
 deep-translator
+
+pyinstaller
 charset_normalizer==2.1.1
