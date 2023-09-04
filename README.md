@@ -50,7 +50,6 @@ If you see some mess string:
 - `creation`: File creation utilities
 - `utils`: Some utility app staff (like save settings)
 - `resources`: app resources (img, sounds, etc.)
-- `mods`: Default mod folder for source code exec
 - `analyzers`: XML Analyzers
 - `settings`: app settings
 
