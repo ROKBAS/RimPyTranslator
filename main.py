@@ -5,7 +5,7 @@ import sys
 from PySide6.QtWidgets import QApplication
 
 from logic import Logic
-from utils import SETTINGS_PATH, initiate_settings
+from utils import initiate_settings
 
 if os.path.exists("RimPyTranslate.log"):
     os.remove("RimPyTranslate.log")
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 if __name__ == "__main__":
-    settings = initiate_settings(SETTINGS_PATH)
+    settings = initiate_settings()
     app = QApplication(sys.argv)
     app.setApplicationName("RimPyTranslator")
     width, height = app.screens()[0].size().toTuple()

@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import tomllib
 import tomli_w
 
@@ -19,18 +20,28 @@ DEFAULT_CONFIG = {
     },
 }
 TRUES_TYPING = ["True", "False", "TRUE", "FALSE", "true", "false"]
-SETTINGS_PATH = "settings.toml"
+SETTINGS_FILE_NAME = "settings.toml"
 
 
-def initiate_settings(name):
-    if not os.path.exists(name):
-        with open(name, "wb") as f:
+def initiate_settings():
+    _path = (
+        Path(os.path.expanduser("~"))
+        .joinpath("RimPyTranslator")
+        .joinpath(SETTINGS_FILE_NAME)
+    )
+    if not os.path.exists(_path):
+        with open(_path, "wb") as f:
             tomli_w.dump(DEFAULT_CONFIG, f)
-    with open(name, "rb") as f:
+    with open(_path, "rb") as f:
         settings = tomllib.load(f)
     return settings
 
 
-def save_settings(settings, path):
-    with open(path, "wb+") as f:
+def save_settings(settings):
+    _path = (
+        Path(os.path.expanduser("~"))
+        .joinpath("RimPyTranslator")
+        .joinpath(SETTINGS_FILE_NAME)
+    )
+    with open(_path, "wb+") as f:
         tomli_w.dump(settings, f)

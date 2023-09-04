@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (
 
 from custom_widgets import QHLine
 from languages import Languages
-from utils import SETTINGS_PATH, save_settings
+from utils import save_settings
 
 
 class Gui(QMainWindow):  # Made GUI Base class for all logic
@@ -127,5 +127,5 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.settings["parser"]["ignored_tag_list"] = sorted(self.ignored_tag_list)
         self.settings["window"]["screen_size"] = f"{self.width()}x{self.height()}"
         self.settings["window"]["app_position"] = f"{self.x()},{self.y()}"
-        save_settings(self.settings, SETTINGS_PATH)
+        save_settings(self.settings)
         event.accept()
