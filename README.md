@@ -42,16 +42,16 @@ If you see some mess string:
 
 ### Structure
 
-- `main`: Startup script, build, run window, start app
-- `logic`: Combines main app logic
-- `languages`: Languages enum for selecting in gui
-- `gui`: General user interface
-- `custom_widgets`: Custom widgets for PySide
-- `creation`: File creation utilities
-- `utils`: Some utility app staff (like save settings)
-- `resources`: app resources (img, sounds, etc.)
-- `analyzers`: XML Analyzers
-- `settings`: app settings
+- [`main`](main.py): Startup script, build, run window, start app
+- [`logic`](logic.py): Combines main app logic
+- [`languages`](languages.py): Languages enum for selecting in gui
+- [`gui`](gui.py): General user interface
+- [`custom_widgets`](custom_widgets.py): Custom widgets for PySide
+- [`creation`](creation): File creation utilities
+- [`utils`](utils): Some utility app staff (like save settings)
+- [`resources`](resources): app resources (img, sounds, etc.)
+- [`analyzers`](analyzers): XML Analyzers
+- [`settings.toml`](settings.toml): app settings
 
 ### Run Environment
 
