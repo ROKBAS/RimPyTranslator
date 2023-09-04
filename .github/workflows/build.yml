@@ -41,25 +41,11 @@ jobs:
           - os: macos-latest
             TARGET: macos
             CMD_BUILD: >
-              pyinstaller -F -w --target-architecture universal2 -n RimPyTranslator -i resources/icon.ico main.py &&
+              pyinstaller -F -w -n RimPyTranslator -i resources/icon.ico main.py &&
               cd dist/ &&
-              echo "Install create-dmg" &&
-              brew install create-dmg &&
-              create-dmg \
-                --volname "RimPyTranslator" \
-                --window-pos 200 120 \
-                --window-size 800 529 \
-                --icon-size 130 \
-                --text-size 14 \
-                --icon "RimPyTranslator.app" 260 250 \
-                --hide-extension "RimPyTranslator.app" \
-                --app-drop-link 540 250 \
-                --hdiutil-quiet \
-                "RimPyTranslator.dmg" \
-                "RimPyTranslator.app" 
-              # zip -r9 RimPyTranslator RimPyTranslator.app/
-            OUT_FILE_NAME: RimPyTranslator.dmg
-            ASSET_MIME: application/octet-stream
+              zip -r9 RimPyTranslator RimPyTranslator.app/
+            OUT_FILE_NAME: RimPyTranslator.zip
+            ASSET_MIME: application/zip
           - os: windows-latest
             TARGET: windows
             CMD_BUILD: pyinstaller -F -w -n RimPyTranslator -i resources/icon.ico main.py
