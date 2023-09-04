@@ -7,11 +7,11 @@
 
 ## Features
 
-- `Translator`: parse files of Mods, extract language files, edit and publish.
+- `Translator`: parse files of Mods, extract language files, edit and patch.
 
 ## Development
 
-- `Translator`: parse files of Mods, extract language files, edit and publish.
+- `Translator`: parse files of Mods, extract language files, edit and patch.
 
 ### Structure
 
