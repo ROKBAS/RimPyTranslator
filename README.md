@@ -1,20 +1,37 @@
 # RimPyTranslator
-
 <!-- ![RimPyTranslator](https://avatars.githubusercontent.com/u/2728043?v=4)
 ![RimPyTranslator-version]](https://github.com/ROKBAS/RimPyTranslator/releases)
 ![RimPyTranslator-downloads]](https://github.com/ROKBAS/RimPyTranslator/releases) -->
 ![License](https://img.shields.io/github/license/ROKBAS/RimPyTranslator)
 
 ## Features
-
 - `Translator`: parse files of Mods, extract language files, edit and patch.
 
-## Development
+## Install
+- Download file from latets release version
+- Download file `settings.toml` or replace it like settled in Settings section
 
-- `Translator`: parse files of Mods, extract language files, edit and patch.
+## Use
+- Start RimPyTranslator.
+- Select mods folder or use contained one from settings.
+- Select mod that you need to translate.
+- Press "Prepare" button, this will convert all convertable strings.
+
+If you see some mess string:
+1. Select needed tag in column "Tag name" then use "Add to def ignored tags" button.
+2. If you think this tag needs to be ignored globaly use "Add to ignored tags list"
+
+## Settings
+
+- MACOS:
+
+`~/RimPyTranslator` - use `cd ~/RimPyTranslator` on your current user.
+
+- WINDOWS:
+
+`%USERPROFILE%\RimPyTranslator` - you can pass this line to your file exploler.
 
 ### Structure
-
 - `main`: Startup script, build, run window, start app
 - `logic`: Combines main app logic
 - `languages`: Languages enum for selecting in gui
@@ -28,12 +45,10 @@
 - `settings`: app settings
 
 ### Run Environment
-
 - Windows (RimPyTranslator.exe)
 - Mac OS (RimPyTranslator.zip) currently doesn't know how to build .dmg for mac os
 
 ### App development
-
 ```bash
 python3 -m venv .venv
 pip install -r requirements
