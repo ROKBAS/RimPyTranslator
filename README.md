@@ -15,6 +15,7 @@
 
 ## Use
 
+- PLEASE DOWNLOAD LATEST SETTINGS FROM GITHUB AND REPLACE IT!!!
 - Start RimPyTranslator.
 - Select mods folder or use contained one from settings.
 - Select mod that you need to translate.
