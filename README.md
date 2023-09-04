@@ -59,8 +59,8 @@ If you see some mess string:
 - Windows (RimPyTranslator.exe)
 - Mac OS (RimPyTranslator.zip):
 
-    1. Currently supported all versions (ARM, Intel).
-    2. currently doesn't know how to build .dmg for mac os, just use  it like `./RimPyTranslator`
+    1. Supported all versions (ARM, Intel).
+    2. Doesn't know how to build .dmg for mac os, just use  it like `./RimPyTranslator`
 
 ### App development
 
