@@ -33,7 +33,6 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
         self.ign_cs_button.clicked.connect(self.add_to_ignored_classes)
         self.ign_tags_button.clicked.connect(self.add_to_ignored_tags)
         self.pick_mods()
-        self.prepare_mod()
 
     def add_to_ignored_classes(self):
         for item in self.strings_view.selectedItems():
@@ -62,6 +61,7 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
             filenames = dialog.selectedFiles()
             if filenames:
                 self.current_mods_folder = Path(filenames[0])
+                self.edit_mods_config_text.setText(f"{self.current_mods_folder}")
                 self.pick_mods()
 
     def pick_mods(self):
