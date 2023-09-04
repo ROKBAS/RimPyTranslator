@@ -41,9 +41,9 @@ jobs:
           - os: macos-latest
             TARGET: macos
             CMD_BUILD: >
-              pyinstaller -F -w -n RimPyTranslator -i resources/icon.ico main.py &&
+              pyinstaller -F --target-architecture universal2 -n RimPyTranslator -i resources/icon.ico main.py &&
               cd dist/ &&
-              zip -r9 RimPyTranslator RimPyTranslator.app/
+              zip -r9 RimPyTranslator RimPyTranslator
             OUT_FILE_NAME: RimPyTranslator.zip
             ASSET_MIME: application/zip
           - os: windows-latest
@@ -57,7 +57,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.11
-          cache: 'pip'
+          cache: "pip"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
