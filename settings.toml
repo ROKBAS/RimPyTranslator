@@ -201,3 +201,22 @@ tag_list = [
     "treeDef",
     "subNodes",
 ]
+
+[[parser.ignored_def_tags]]
+def_name = "ThoughtDef"
+tag_list = [
+    "requiredTraits",
+    "nullifyingTraits",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "TraitDef"
+tag_list = [
+    "allowedMeditationFocusTypes",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "RecipeDef"
+tag_list = [
+    "disallowedThingDefs",
+]

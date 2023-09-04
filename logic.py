@@ -1,5 +1,5 @@
 import logging
-import re
+import os
 from pathlib import Path
 from typing import List
 
@@ -18,9 +18,11 @@ logger = logging.getLogger(__name__)
 class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
     def __init__(self, width: int, height: int, settings: dict):
         super().__init__(width, height, settings)
-        self.current_mods_folder = self.start_dir.joinpath("mods")
-        if not self.current_mods_folder.exists():
-            self.current_mods_folder.mkdir(mode=777, exist_ok=True)
+
+        self.current_mods_folder = (
+            Path(os.path.expanduser("~")).joinpath("RimPyTranslator").joinpath("mods")
+        )
+        self.current_mods_folder.mkdir(mode=511, parents=True, exist_ok=True)
         self.current_mod_path_list: List[str] | None = None
         self.current_mod_list: List[str] | None = None
         self.edit_mods_config_text.setText(f"{self.current_mods_folder}")
@@ -72,12 +74,12 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
     def prepare_mod(self):
         self.strings_view.clearContents()
         self.strings_view.setRowCount(0)
-        for path in self.current_mod_path_list:
+        for _item in self.file_list.selectedIndexes():
+            path = Path(self.current_mod_path_list[_item.row()])
             logging.info(f"Working at {path} on analyzing game mod folders.")
-            path_object = Path(path)
-            self.analyze_base_mod(path_object)
+            self.analyze_base_mod(path)
             for version in range(0, 5):
-                self.analyze_mod(path_object, f"1.{version}")
+                self.analyze_mod(path, f"1.{version}")
 
     def translate_strings(self):
         current_item = self.strings_view.currentItem()
