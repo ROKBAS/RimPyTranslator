@@ -82,12 +82,12 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
                 self.analyze_mod(path, f"1.{version}")
 
     def translate_strings(self):
-        current_item = self.strings_view.currentItem()
-        translated = GoogleTranslator(
-            source=self.original_language_box.currentText(),
-            target=self.translation_language_box.currentText(),
-        ).translate(current_item.text())
-        current_item.setText(translated)
+        for item in self.strings_view.selectedItems():
+            translated = GoogleTranslator(
+                source=self.original_language_box.currentText(),
+                target=self.translation_language_box.currentText(),
+            ).translate(item.text())
+            item.setText(translated)
 
     def patch_mod(self):
         dictionary_of_strings = {
