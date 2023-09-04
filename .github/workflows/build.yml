@@ -43,7 +43,7 @@ jobs:
             CMD_BUILD: >
               pyinstaller -F --target-architecture universal2 -n RimPyTranslator -i resources/icon.ico main.py &&
               cd dist/ &&
-              zip -r9 RimPyTranslator RimPyTranslator
+              zip RimPyTranslator RimPyTranslator
             OUT_FILE_NAME: RimPyTranslator.zip
             ASSET_MIME: application/zip
           - os: windows-latest
