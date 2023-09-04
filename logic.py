@@ -83,9 +83,10 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
 
     def translate_strings(self):
         current_item = self.strings_view.currentItem()
-        translated = GoogleTranslator(source="en", target="ru").translate(
-            current_item.text()
-        )
+        translated = GoogleTranslator(
+            source=self.original_language_box.currentText(),
+            target=self.translation_language_box.currentText(),
+        ).translate(current_item.text())
         current_item.setText(translated)
 
     def patch_mod(self):
