@@ -29,6 +29,7 @@ ignored_tag_list = [
     "defName",
     "defaultFactionType",
     "defaultLabelColor",
+    "defaultProjectile",
     "diedThought",
     "diedThoughtFemale",
     "diseaseIncident",
@@ -149,12 +150,82 @@ tag_list = [
     "thingCategories",
     "tradeTags",
     "thingSetMakerTags",
+    "spawnedConceptLearnOpportunity",
+    "researchPrerequisites",
+    "recipes",
+    "drawSize",
+    "stuffCategories",
+    "shaderType",
+    "linkType",
+    "linkFlags",
+    "rect",
+    "placeWorkers",
+    "cornerTL",
+    "cornerTR",
+    "cornerBL",
+    "cornerBR",
+    "thingDefs",
+    "priority",
+    "categories",
+    "soundExplode",
+    "soundHitThickRoof",
+    "preExplosionSpawnThingDef",
+    "damageDef",
+    "soundImpactAnticipate",
+    "soundAmbient",
+    "stuffAdjective",
+    "constructEffect",
+    "appearance",
+    "soundImpactStuff",
+    "soundMeleeHitSharp",
+    "soundMeleeHitBlunt",
+    "mineableThing",
+    "colorTwo",
+    "destroySound",
+    "volume",
+    "specialThoughtAsIngredient",
+    "techHediffsTags",
+    "weaponTags",
+    "verbClass",
+    "soundCast",
+    "postExplosionSpawnThingDef",
+    "sowTags",
+    "immatureGraphicPath",
+    "purpose",
+    "leaflessGraphicPath",
+    "soundHarvesting",
+    "soundHarvestFinish",
+    "meatColor",
+    "mergeCompatibilityTags",
+    "deathActionWorkerClass",
+    "trainability",
+    "useMeatFrom",
+    "soundWounded",
+    "soundDeath",
+    "soundAngry",
+    "statToAdd",
+    "statValues",
+    "statDescriptions",
+    "ImageToShowInInfoCard",
+    "leatherDef",
+    "soundCall",
+    "points",
+    "soundMeleeHit",
+    "nameGeneratorFemale",
+    "nameGenerator",
+    "specificMeatDef",
+    "willNeverEat",
 ]
 
 [[parser.ignored_def_tags]]
 def_name = "PawnKindDef"
 tag_list = [
     "race",
+    "volume",
+    "alternateGraphics",
+    "weaponMoney",
+    "weaponTags",
+    "bodyPartGroup",
 ]
 
 [[parser.ignored_def_tags]]
@@ -163,12 +234,15 @@ tag_list = [
     "corpseCategory",
     "damageEffecter",
     "texture",
+    "ateAsIngredient",
+    "ateDirect",
 ]
 
 [[parser.ignored_def_tags]]
 def_name = "BodyPartDef"
 tag_list = [
     "tags",
+    "key",
 ]
 
 [[parser.ignored_def_tags]]
@@ -185,6 +259,8 @@ tag_list = [
     "giverClass",
     "workType",
     "requiredCapacities",
+    "fixedBillGiverDefs",
+    "workTags",
 ]
 
 [[parser.ignored_def_tags]]
@@ -193,6 +269,14 @@ tag_list = [
     "context",
     "clipFolderPath",
     "priorityMode",
+    "clipPath",
+    "sustainStartSound",
+    "sustainStopSound",
+    "eventNames",
+    "repeatMode",
+    "distRange",
+    "sustainLoopDurationRange",
+    "sustainIntervalRange",
 ]
 
 [[parser.ignored_def_tags]]
@@ -200,6 +284,7 @@ def_name = "ThinkTreeDef"
 tag_list = [
     "treeDef",
     "subNodes",
+    "thinkRoot",
 ]
 
 [[parser.ignored_def_tags]]
@@ -207,6 +292,7 @@ def_name = "ThoughtDef"
 tag_list = [
     "requiredTraits",
     "nullifyingTraits",
+    "effectMultiplyingStat",
 ]
 
 [[parser.ignored_def_tags]]
@@ -219,4 +305,228 @@ tag_list = [
 def_name = "RecipeDef"
 tag_list = [
     "disallowedThingDefs",
+    "categories",
+    "disallowedCategories",
+    "specialFiltersToDisallow",
+    "thingDefs",
+    "specialFiltersToAllow",
+    "requiredGiverWorkType",
+    "conceptLearned",
+    "recipeUsers",
+    "unfinishedThingDef",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "DontShaveYourHead"
+tag_list = [
+    "texturePathList",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "SpecialThingFilterDef"
+tag_list = [
+    "parentCategory",
+    "saveKey",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "HugsLib"
+tag_list = [
+    "content",
+    "modNameReadable",
+    "modIdentifier",
+    "linkUrl",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "ResearchProjectDef"
+tag_list = [
+    "prerequisites",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "Merthsoft"
+tag_list = [
+    "uiIconPath",
+    "drawMethodName",
+    "selectedUiIconPath",
+    "overlayGroup",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "IncidentDef"
+tag_list = [
+    "targetTags",
+    "questScriptDef",
+    "pawnKind",
+    "populationEffect",
+    "gameCondition",
+    "durationDays",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "ThingCategoryDef"
+tag_list = [
+    "iconPath",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "TerrainDef"
+tag_list = [
+    "texturePath",
+    "burnedDef",
+    "researchPrerequisites",
+    "designationCategory",
+    "designatorDropdown",
+    "constructEffect",
+    "edgeType",
+    "scatterType",
+    "generatedFilth",
+    "affordances",
+    "capacities",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "DesignationCategoryDef"
+tag_list = [
+    "specialDesignatorClasses",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "WorkTypeDef"
+tag_list = [
+    "workTags",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "DesignationDef"
+tag_list = [
+    "texturePath",
+    "targetType",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "MainButtonDef"
+tag_list = [
+    "tabWindowClass",
+    "defaultHotKey",
+    "iconPath",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "KeyBindingDef"
+tag_list = [
+    "defaultKeyCodeA",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "AnimalBehaviours"
+tag_list = [
+    "disabledFromQuestsPawns",
+    "unaffectedBySelfTamePawns",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "DamageDef"
+tag_list = [
+    "victimSeverityScaling",
+    "armorCategory",
+    "impactSoundType",
+    "explosionCellFleck",
+    "explosionColorCenter",
+    "explosionColorEdge",
+    "combatLogRules",
+    "soundExplosion",
+    "overkillPctToDestroyPart",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "HediffDef"
+tag_list = [
+    "partsToAffect",
+    "capacities",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "InteractionDef"
+tag_list = [
+    "interactionMote",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "ManeuverDef"
+tag_list = [
+    "requiredCapacity",
+    "verbClass",
+    "meleeDamageDef",
+    "logEntryDef",
+    "combatLogRulesHit",
+    "combatLogRulesDeflect",
+    "combatLogRulesMiss",
+    "combatLogRulesDodge",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "QuestScriptDef"
+tag_list = [
+    "successHistoryEvent",
+    "failedOrExpiredHistoryEvent",
+    "root",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "VSEWW"
+tag_list = [
+    "pawnkind",
+    "intelligence",
+    "tradeTag",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "RulePackDef"
+tag_list = [
+    "include",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "GameConditionDef"
+tag_list = [
+    "conditionClass",
+    "letterDef",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "VFECore"
+tag_list = [
+    "texPathFadeOut",
+    "shaderType",
+    "startingPositionOffset",
+    "damageDef",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "ThingSetMakerDef"
+tag_list = [
+    "root",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "AlphaBehavioursAndEvents"
+tag_list = [
+    "toggleablePawns",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "FactionDef"
+tag_list = [
+    "colorSpectrum",
+    "settlementTexturePath",
+    "points",
+    "factionIconPath",
+]
+
+[[parser.ignored_def_tags]]
+def_name = "MVCF"
+tag_list = [
+    "ActivateFeatures",
 ]
