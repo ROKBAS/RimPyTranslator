@@ -11,7 +11,7 @@
 ## Install
 
 - Download file from [latest](https://github.com/ROKBAS/RimPyTranslator/releases) release version.
-- Download file [`settings.toml`](settings.xml) or replace it like settled in Settings section.
+- Download file [`settings.toml`](settings.toml) or replace it like settled in Settings section.
 
 ## Use
 
