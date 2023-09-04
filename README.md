@@ -20,7 +20,7 @@
 - Select mods folder or use contained one from settings.
 - Select mod that you need to translate.
 - Press "Prepare" button, this will convert all convertable strings.
-- Select string from "Translated text" column.
+- Select string from "Translated text" column and translate it.
 - Press "Translate" button, to help you with selected text translation.
 - When you finished your translation, press "Patch" button, this will create translation files in mod folder.
 - You are awesome.
