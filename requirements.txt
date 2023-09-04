@@ -12,3 +12,4 @@ bs4
 lxml
 
 deep-translator
+charset_normalizer==2.1.1
