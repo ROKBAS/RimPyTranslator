@@ -89,22 +89,38 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
         current_item.setText(translated)
 
     def patch_mod(self):
-        dictionary_of_strings = {"Keyed": {}, "Defs": {}, "Strings": {}}
-        for row in range(self.strings_view.rowCount()):
-            _identifier = self.strings_view.item(row, 0).text()
-            _type = self.strings_view.item(row, 1).text()
-            _text = self.strings_view.item(row, 5).text()
+        dictionary_of_strings = {
+            "Keyed": {},
+            "Defs": {},
+            "Strings": {},
+        }  # Соритровка с подстановкой
+        for row in range(
+            self.strings_view.rowCount()
+        ):  # Проходимся по итогову списку со строками перевода
+            _identifier = self.strings_view.item(
+                row, 0
+            ).text()  # Строка идентификатора для инъекции перевода
+            _type = self.strings_view.item(row, 1).text()  # Тип запаковки
+            _text = self.strings_view.item(row, 5).text()  # Итоговый текст
             # OriginalPath = self.strings_view.item(row, 6)
-            _futurePath = self.strings_view.item(row, 7).text()
-            if dictionary_of_strings[_type].get(_futurePath, None) is None:
-                dictionary_of_strings[_type][_futurePath] = []
-            dictionary_of_strings[_type][_futurePath].append((_identifier, _text))
-            for patch_path in list(dictionary_of_strings["Defs"].keys()):
-                create_def_xml(dictionary_of_strings["Defs"][patch_path], patch_path)
-            for patch_path in list(dictionary_of_strings["Keyed"].keys()):
-                create_keyed_xml(dictionary_of_strings["Keyed"][patch_path], patch_path)
-            for patch_path in list(dictionary_of_strings["Strings"].keys()):
-                logging.warning(patch_path)
+            _futurePath = self.strings_view.item(
+                row, 7
+            ).text()  # Будующий путь запаковки
+            if (
+                dictionary_of_strings[_type].get(_futurePath, None) is None
+            ):  # Есть ли этот файл в запаковке
+                dictionary_of_strings[_type][
+                    _futurePath
+                ] = []  # Создадим для него место
+            dictionary_of_strings[_type][_futurePath].append(
+                (_identifier, _text)
+            )  # Добавим перевод
+        for patch_path in list(dictionary_of_strings["Defs"].keys()):  #
+            create_def_xml(dictionary_of_strings["Defs"][patch_path], patch_path)
+        for patch_path in list(dictionary_of_strings["Keyed"].keys()):
+            create_keyed_xml(dictionary_of_strings["Keyed"][patch_path], patch_path)
+        for patch_path in list(dictionary_of_strings["Strings"].keys()):
+            logging.warning(f"Don't know how to patch strings files.")
 
     def analyze_base_mod(self, path_object: Path):
         if path_object.joinpath("Defs").exists():
