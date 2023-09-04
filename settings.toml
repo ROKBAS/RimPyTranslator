@@ -134,7 +134,6 @@ tag_list = [
     "inspectorTabs",
     "fleshType",
     "bloodDef",
-    "label",
     "capacities",
     "linkedBodyPartsGroup",
     "intelligence",
@@ -240,18 +239,11 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "BodyPartDef"
-tag_list = [
-    "tags",
-    "key",
-]
+tag_list = ["tags", "key"]
 
 [[parser.ignored_def_tags]]
 def_name = "BodyDef"
-tag_list = [
-    "height",
-    "depth",
-    "groups",
-]
+tag_list = ["height", "depth", "groups"]
 
 [[parser.ignored_def_tags]]
 def_name = "WorkGiverDef"
@@ -281,25 +273,15 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "ThinkTreeDef"
-tag_list = [
-    "treeDef",
-    "subNodes",
-    "thinkRoot",
-]
+tag_list = ["treeDef", "subNodes", "thinkRoot"]
 
 [[parser.ignored_def_tags]]
 def_name = "ThoughtDef"
-tag_list = [
-    "requiredTraits",
-    "nullifyingTraits",
-    "effectMultiplyingStat",
-]
+tag_list = ["requiredTraits", "nullifyingTraits", "effectMultiplyingStat"]
 
 [[parser.ignored_def_tags]]
 def_name = "TraitDef"
-tag_list = [
-    "allowedMeditationFocusTypes",
-]
+tag_list = ["allowedMeditationFocusTypes"]
 
 [[parser.ignored_def_tags]]
 def_name = "RecipeDef"
@@ -318,31 +300,19 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "DontShaveYourHead"
-tag_list = [
-    "texturePathList",
-]
+tag_list = ["texturePathList"]
 
 [[parser.ignored_def_tags]]
 def_name = "SpecialThingFilterDef"
-tag_list = [
-    "parentCategory",
-    "saveKey",
-]
+tag_list = ["parentCategory", "saveKey"]
 
 [[parser.ignored_def_tags]]
 def_name = "HugsLib"
-tag_list = [
-    "content",
-    "modNameReadable",
-    "modIdentifier",
-    "linkUrl",
-]
+tag_list = ["content", "modNameReadable", "modIdentifier", "linkUrl"]
 
 [[parser.ignored_def_tags]]
 def_name = "ResearchProjectDef"
-tag_list = [
-    "prerequisites",
-]
+tag_list = ["prerequisites"]
 
 [[parser.ignored_def_tags]]
 def_name = "Merthsoft"
@@ -366,9 +336,7 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "ThingCategoryDef"
-tag_list = [
-    "iconPath",
-]
+tag_list = ["iconPath"]
 
 [[parser.ignored_def_tags]]
 def_name = "TerrainDef"
@@ -388,43 +356,27 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "DesignationCategoryDef"
-tag_list = [
-    "specialDesignatorClasses",
-]
+tag_list = ["specialDesignatorClasses"]
 
 [[parser.ignored_def_tags]]
 def_name = "WorkTypeDef"
-tag_list = [
-    "workTags",
-]
+tag_list = ["workTags"]
 
 [[parser.ignored_def_tags]]
 def_name = "DesignationDef"
-tag_list = [
-    "texturePath",
-    "targetType",
-]
+tag_list = ["texturePath", "targetType"]
 
 [[parser.ignored_def_tags]]
 def_name = "MainButtonDef"
-tag_list = [
-    "tabWindowClass",
-    "defaultHotKey",
-    "iconPath",
-]
+tag_list = ["tabWindowClass", "defaultHotKey", "iconPath"]
 
 [[parser.ignored_def_tags]]
 def_name = "KeyBindingDef"
-tag_list = [
-    "defaultKeyCodeA",
-]
+tag_list = ["defaultKeyCodeA"]
 
 [[parser.ignored_def_tags]]
 def_name = "AnimalBehaviours"
-tag_list = [
-    "disabledFromQuestsPawns",
-    "unaffectedBySelfTamePawns",
-]
+tag_list = ["disabledFromQuestsPawns", "unaffectedBySelfTamePawns"]
 
 [[parser.ignored_def_tags]]
 def_name = "DamageDef"
@@ -442,16 +394,11 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "HediffDef"
-tag_list = [
-    "partsToAffect",
-    "capacities",
-]
+tag_list = ["partsToAffect", "capacities"]
 
 [[parser.ignored_def_tags]]
 def_name = "InteractionDef"
-tag_list = [
-    "interactionMote",
-]
+tag_list = ["interactionMote"]
 
 [[parser.ignored_def_tags]]
 def_name = "ManeuverDef"
@@ -468,32 +415,19 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "QuestScriptDef"
-tag_list = [
-    "successHistoryEvent",
-    "failedOrExpiredHistoryEvent",
-    "root",
-]
+tag_list = ["successHistoryEvent", "failedOrExpiredHistoryEvent", "root"]
 
 [[parser.ignored_def_tags]]
 def_name = "VSEWW"
-tag_list = [
-    "pawnkind",
-    "intelligence",
-    "tradeTag",
-]
+tag_list = ["pawnkind", "intelligence", "tradeTag"]
 
 [[parser.ignored_def_tags]]
 def_name = "RulePackDef"
-tag_list = [
-    "include",
-]
+tag_list = ["include"]
 
 [[parser.ignored_def_tags]]
 def_name = "GameConditionDef"
-tag_list = [
-    "conditionClass",
-    "letterDef",
-]
+tag_list = ["conditionClass", "letterDef"]
 
 [[parser.ignored_def_tags]]
 def_name = "VFECore"
@@ -506,15 +440,11 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "ThingSetMakerDef"
-tag_list = [
-    "root",
-]
+tag_list = ["root"]
 
 [[parser.ignored_def_tags]]
 def_name = "AlphaBehavioursAndEvents"
-tag_list = [
-    "toggleablePawns",
-]
+tag_list = ["toggleablePawns"]
 
 [[parser.ignored_def_tags]]
 def_name = "FactionDef"
@@ -527,6 +457,4 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "MVCF"
-tag_list = [
-    "ActivateFeatures",
-]
+tag_list = ["ActivateFeatures"]
