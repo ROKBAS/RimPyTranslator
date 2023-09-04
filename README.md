@@ -1,4 +1,5 @@
 # RimPyTranslator
+
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/ROKBAS/RimPyTranslator/build.yml)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 ![GitHub all releases](https://img.shields.io/github/downloads/ROKBAS/RimPyTranslator/total)
@@ -9,8 +10,8 @@
 
 ## Install
 
-- Download file from latets release version
-- Download file `settings.toml` or replace it like settled in Settings section
+- Download file from [latest](https://github.com/ROKBAS/RimPyTranslator/releases) release version.
+- Download file [`settings.toml`](settings.xml) or replace it like settled in Settings section.
 
 ## Use
 
@@ -18,6 +19,10 @@
 - Select mods folder or use contained one from settings.
 - Select mod that you need to translate.
 - Press "Prepare" button, this will convert all convertable strings.
+- Select string from "Translated text" column.
+- Press "Translate" button, to help you with selected text translation.
+- When you finished your translation, press "Patch" button, this will create translation files in mod folder.
+- You are awesome.
 
 If you see some mess string:
 
