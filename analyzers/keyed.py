@@ -56,11 +56,67 @@ class KeyedAnalyzer(Analyzer):
         with open(original_file_path, "rb") as file:
             # Read each line in the file, readlines() returns a list of lines
             content = file.read().decode("utf-8")
+        if translation_file_path.exists():
+            with open(translation_file_path, "rb") as file:
+                # Read each line in the file, readlines() returns a list of lines
+                future_content = file.read().decode("utf-8")
+            future_bs_content = bs(future_content, features="lxml-xml")
+            _future_LanguageData = future_bs_content.find("LanguageData")
         bs_content = bs(content, features="lxml-xml")
         _LanguageData = bs_content.find("LanguageData")
-        if not _LanguageData:
-            return
-        for _def in _LanguageData.recursiveChildGenerator():
+        if _future_LanguageData and _LanguageData:
+            self.parse_existed_data(
+                original_file_path,
+                translation_file_path,
+                _LanguageData,
+                _future_LanguageData,
+            )
+        elif _LanguageData:
+            self.parse_only_native_data(
+                original_file_path, translation_file_path, _LanguageData
+            )
+
+    def parse_existed_data(
+        self,
+        original_file_path,
+        translation_file_path,
+        LanguageData,
+        future_LanguageData,
+    ):
+        _futures_defs = {}
+        for _def in future_LanguageData.recursiveChildGenerator():
+            if not re.sub(r"\s", "", _def.text) or not _def.name:
+                continue
+            _futures_defs[_def.name] = _def.text
+
+        for _def in LanguageData.recursiveChildGenerator():
+            if not re.sub(r"\s", "", _def.text) or not _def.name:
+                continue
+            row = self.strings_view.rowCount()
+            self.strings_view.insertRow(row)
+            self.strings_view.setItem(row, 0, QTableWidgetItem(_def.name))
+            self.strings_view.setItem(row, 1, QTableWidgetItem("Keyed"))
+            self.strings_view.setItem(row, 2, QTableWidgetItem("-"))
+            self.strings_view.setItem(row, 3, QTableWidgetItem("-"))
+            self.strings_view.setItem(row, 4, QTableWidgetItem(_def.text))
+            self.strings_view.setItem(
+                row,
+                5,
+                QTableWidgetItem(
+                    _futures_defs[_def.name]
+                    if _futures_defs.get(_def.name)
+                    else _def.text
+                ),
+            )
+            self.strings_view.setItem(row, 6, QTableWidgetItem(str(original_file_path)))
+            self.strings_view.setItem(
+                row, 7, QTableWidgetItem(str(translation_file_path))
+            )
+
+    def parse_only_native_data(
+        self, original_file_path, translation_file_path, LanguageData
+    ):
+        for _def in LanguageData.recursiveChildGenerator():
             if not re.sub(r"\s", "", _def.text) or not _def.name:
                 continue
             row = self.strings_view.rowCount()
