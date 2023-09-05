@@ -51,17 +51,18 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.start_dir = Path(__file__).resolve().parent
         self.file_list = QListWidget(self._central_widget)
         self.strings_view = QTableWidget(self._central_widget)
-        self.strings_view.setColumnCount(8)
+        self.strings_view.setColumnCount(9)
         self.strings_view.setHorizontalHeaderLabels(
             [
                 "Identifier",  # 0
                 "Type",  # 1
-                "Tag name",  # 2
-                "Class name",  # 3
-                "Original Text",  # 4
-                "Text",  # 5
-                "OriginalPath",  # 6
-                "FuturePath",  # 7
+                "Def name", # 2
+                "Tag name",  # 3
+                "Class name",  # 4
+                "Original Text",  # 5
+                "Text",  # 6
+                "OriginalPath",  # 7
+                "FuturePath",  # 8
             ]
         )
         self.mods_toolbar = QToolBar("Mods Folder", self._central_widget)

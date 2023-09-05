@@ -99,19 +99,20 @@ class KeyedAnalyzer(Analyzer):
             self.strings_view.setItem(row, 1, QTableWidgetItem("Keyed"))
             self.strings_view.setItem(row, 2, QTableWidgetItem("-"))
             self.strings_view.setItem(row, 3, QTableWidgetItem("-"))
-            self.strings_view.setItem(row, 4, QTableWidgetItem(_def.text))
+            self.strings_view.setItem(row, 4, QTableWidgetItem("-"))
+            self.strings_view.setItem(row, 5, QTableWidgetItem(_def.text))
             self.strings_view.setItem(
                 row,
-                5,
+                6,
                 QTableWidgetItem(
                     _futures_defs[_def.name]
                     if _futures_defs.get(_def.name)
                     else _def.text
                 ),
             )
-            self.strings_view.setItem(row, 6, QTableWidgetItem(str(original_file_path)))
+            self.strings_view.setItem(row, 7, QTableWidgetItem(str(original_file_path)))
             self.strings_view.setItem(
-                row, 7, QTableWidgetItem(str(translation_file_path))
+                row, 8, QTableWidgetItem(str(translation_file_path))
             )
 
     def parse_only_native_data(
@@ -126,9 +127,10 @@ class KeyedAnalyzer(Analyzer):
             self.strings_view.setItem(row, 1, QTableWidgetItem("Keyed"))
             self.strings_view.setItem(row, 2, QTableWidgetItem("-"))
             self.strings_view.setItem(row, 3, QTableWidgetItem("-"))
-            self.strings_view.setItem(row, 4, QTableWidgetItem(_def.text))
+            self.strings_view.setItem(row, 4, QTableWidgetItem("-"))
             self.strings_view.setItem(row, 5, QTableWidgetItem(_def.text))
-            self.strings_view.setItem(row, 6, QTableWidgetItem(str(original_file_path)))
+            self.strings_view.setItem(row, 6, QTableWidgetItem(_def.text))
+            self.strings_view.setItem(row, 7, QTableWidgetItem(str(original_file_path)))
             self.strings_view.setItem(
-                row, 7, QTableWidgetItem(str(translation_file_path))
+                row, 8, QTableWidgetItem(str(translation_file_path))
             )

@@ -57,6 +57,9 @@ def open_xml_file(_path):
         try:
             content = _file.read().decode("utf-8")
         except UnicodeEncodeError:
-            content = _file.read().decode("utf-8-sig")
+            try:
+                content = _file.read().decode("utf-8-sig")
+            except UnicodeDecodeError:
+                content = _file.read().decode("utf-16")
     with open(_path, "w+", encoding="utf-8", newline="\n") as _file:
         _file.write(content)

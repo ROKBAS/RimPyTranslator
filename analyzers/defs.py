@@ -1,3 +1,4 @@
+from copy import copy
 import logging
 import re
 from pathlib import Path
@@ -25,11 +26,8 @@ class DefAnalyzer(Analyzer):
         if not defs_paths:
             return
         injected_defs = prefered_path.joinpath("DefInjected")
-        if not injected_defs.exists():
-            injected_defs.mkdir(mode=777, exist_ok=True)
-        for def_name, def_path in zip(defs_names, defs_paths):
-            local_injected_def_path = injected_defs.joinpath(f"{def_name}")
-            self.inject_translation_files(def_path, local_injected_def_path)
+        for _, def_path in zip(defs_names, defs_paths):
+            self.inject_translation_files(def_path, injected_defs)
 
     def create_translation_files(
         self, original_file_path: Path, translation_file_path: Path
@@ -62,51 +60,93 @@ class DefAnalyzer(Analyzer):
                     else:
                         class_name = str(class_name.text)
                     _id_of_sected_tag = (
-                        str(tree.getpath(tag))
+                        str(tree.getelementpath(tag))
                         .replace("]/", ".")
                         .replace("[", ".")
                         .replace("/", ".")
                         .replace("]", ".")
                         .strip()
                         .strip(".")
-                    )  # Containts Def. at start
+                    )
+
+                    _base_def_name = str(_def.tag)  # Base def
+                    _def_index = _id_of_sected_tag.find("Def")
+                    if _def_index == -1:
+                        _def_index = _id_of_sected_tag.find("def")
+                    _id_of_sected_tag = _id_of_sected_tag[_def_index + 3 :]
+                    _id_of_sected_tag = f"{class_name}{_id_of_sected_tag}"
+                    _split_id = _id_of_sected_tag.split(".")
+                    if len(_split_id) > 1 and _split_id[1].isdigit():
+                        del _split_id[1]
+                    _id_of_sected_tag = ".".join(_split_id)
+                    _split_id = _id_of_sected_tag.split(".")
+                    for num, value in enumerate(_split_id):
+                        if value.isdigit():
+                            _split_id[num] = str(int(value) - 1)
+                    _id_of_sected_tag = ".".join(_split_id)
+                    while _id_of_sected_tag.find(".li.") > -1:
+                        _idx_of_li = _id_of_sected_tag.find(
+                            ".li."
+                        )  # index of li elemnt
+                        _after_li_string = _id_of_sected_tag[
+                            _idx_of_li + 4 : len(_id_of_sected_tag)
+                        ]
+                        if _after_li_string.split(".")[0].isdigit():
+                            _id_of_sected_tag = (
+                                _id_of_sected_tag[: _idx_of_li + 1] + _after_li_string
+                            )
+                        else:
+                            _id_of_sected_tag = (
+                                _id_of_sected_tag[:_idx_of_li]
+                                + ".0."
+                                + _after_li_string
+                            )
                     lines.append(
                         (
-                            _id_of_sected_tag[5:],
+                            _id_of_sected_tag,
                             str(tag.text),
                             str(tag.tag)
                             if str(tag.tag) != "li"
                             else str(tag.getparent().tag),
+                            class_name,
+                            _base_def_name,
+                            translation_file_path.joinpath(_base_def_name).joinpath(
+                                original_file_path.name
+                            ),
                         )
                     )
+            if not lines:
+                return
+            self.translate_mixed(original_file_path, lines)
+
+    def translate_mixed(self, original_file_path, lines):
+        for (
+            _id,
+            string,
+            tag_name,
+            class_name,
+            base_def_name,
+            translation_file_path,
+        ) in lines:
+            _future_root = None
             if translation_file_path.exists():
-                self.translate_mixed(
-                    original_file_path, translation_file_path, lines, class_name
-                )
-            else:
-                self.translate_only_existing(
-                    original_file_path, translation_file_path, lines, class_name
-                )
-
-    def translate_mixed(
-        self, original_file_path, translation_file_path, lines, class_name
-    ):
-        open_xml_file(translation_file_path)
-        _future_tree = etree.parse(translation_file_path, parser)
-        _future_root = _future_tree.getroot()
-        for _id, string, tag_name in lines:
+                open_xml_file(translation_file_path)
+                _future_tree = etree.parse(translation_file_path, parser)
+                _future_root = _future_tree.getroot()
             found_forbidden_tag_in_class_bool = False
             for _def_name, _tag_def_list in self.ignored_def_tags.items():
-                if _id.find(_def_name) > -1:
+                if base_def_name.find(_def_name) > -1:
                     for _tag in _tag_def_list:
-                        if _id.find(_tag) != -1:
+                        if tag_name.find(_tag) != -1:
                             found_forbidden_tag_in_class_bool = True
                             break
                 if found_forbidden_tag_in_class_bool:
                     break
             if found_forbidden_tag_in_class_bool:
                 continue
-            _existing_def = _future_root.find(_id)
+            _existing_def = None
+            if _future_root:
+                _existing_def = _future_root.find(_id)
             row = self.strings_view.rowCount()
             self.strings_view.insertRow(row)
             _id_item = QTableWidgetItem(_id)
@@ -115,73 +155,30 @@ class DefAnalyzer(Analyzer):
             _type_item = QTableWidgetItem("Defs")
             _type_item.setFlags(Qt.ItemFlag.ItemIsEditable)
             self.strings_view.setItem(row, 1, _type_item)
+            _def_name_item = QTableWidgetItem(base_def_name)
+            self.strings_view.setItem(row, 2, _def_name_item)
             _tag_name_item = QTableWidgetItem(tag_name)
-            self.strings_view.setItem(row, 2, _tag_name_item)
+            self.strings_view.setItem(row, 3, _tag_name_item)
             cs_name_item = QTableWidgetItem(class_name)
-            self.strings_view.setItem(row, 3, cs_name_item)
+            self.strings_view.setItem(row, 4, cs_name_item)
             ol_string_item = QTableWidgetItem(string)
             ol_string_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-            self.strings_view.setItem(row, 4, ol_string_item)
-            if len(_existing_def.text) >= 0:
+            self.strings_view.setItem(row, 5, ol_string_item)
+            if _existing_def is not None and len(_existing_def.text) >= 0:
                 string = _existing_def.text
-            self.strings_view.setItem(row, 5, QTableWidgetItem(string))
+            self.strings_view.setItem(row, 6, QTableWidgetItem(string))
             of_ph_item = QTableWidgetItem(str(original_file_path))
             of_ph_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-            self.strings_view.setItem(row, 6, of_ph_item)
+            self.strings_view.setItem(row, 7, of_ph_item)
             tf_fp_item = QTableWidgetItem(str(translation_file_path))
             tf_fp_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-            self.strings_view.setItem(row, 7, tf_fp_item)
-
-    def translate_only_existing(
-        self, original_file_path, translation_file_path, lines, class_name
-    ):
-        for _id, string, tag_name in lines:
-            found_forbidden_tag_in_class_bool = False
-            for _def_name, _tag_def_list in self.ignored_def_tags.items():
-                if _id.find(_def_name) > -1:
-                    for _tag in _tag_def_list:
-                        if _id.find(_tag) != -1:
-                            found_forbidden_tag_in_class_bool = True
-                            break
-                if found_forbidden_tag_in_class_bool:
-                    break
-            if found_forbidden_tag_in_class_bool:
-                continue
-            row = self.strings_view.rowCount()
-            self.strings_view.insertRow(row)
-            _id_item = QTableWidgetItem(_id)
-            _id_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-            self.strings_view.setItem(row, 0, _id_item)
-            _type_item = QTableWidgetItem("Defs")
-            _type_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-            self.strings_view.setItem(row, 1, _type_item)
-            _tag_name_item = QTableWidgetItem(tag_name)
-            self.strings_view.setItem(row, 2, _tag_name_item)
-            cs_name_item = QTableWidgetItem(class_name)
-            self.strings_view.setItem(row, 3, cs_name_item)
-            ol_string_item = QTableWidgetItem(string)
-            ol_string_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-            self.strings_view.setItem(row, 4, ol_string_item)
-            self.strings_view.setItem(row, 5, QTableWidgetItem(string))
-            of_ph_item = QTableWidgetItem(str(original_file_path))
-            of_ph_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-            self.strings_view.setItem(row, 6, of_ph_item)
-            tf_fp_item = QTableWidgetItem(str(translation_file_path))
-            tf_fp_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-            self.strings_view.setItem(row, 7, tf_fp_item)
+            self.strings_view.setItem(row, 8, tf_fp_item)
 
     def inject_translation_files(self, def_path: Path, injected_def_path: Path):
         if def_path.is_dir():  # если оригинальный def папка
-            if (
-                not injected_def_path.exists()
-            ):  # проверить что такая папка не существует в иньекции перевода
-                logging.info(f"Creating subfolder in {injected_def_path}")
-                injected_def_path.mkdir(mode=777, exist_ok=True)  # создать папку
             defs_paths = list(Path(def_path).iterdir())  # пройдемся по путям в папке
             defs_names = [str(_.name) for _ in defs_paths]  # сформируем нов
-            for _def_name, _def_path in zip(defs_names, defs_paths):
-                self.inject_translation_files(
-                    _def_path, injected_def_path.joinpath(f"{_def_name}")
-                )
+            for _, _def_path in zip(defs_names, defs_paths):
+                self.inject_translation_files(_def_path, injected_def_path)
         elif def_path.is_file():
             self.create_translation_files(def_path, injected_def_path)

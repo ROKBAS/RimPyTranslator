@@ -49,7 +49,7 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
     def add_to_ignored_classes(self):
         for item in self.strings_view.selectedItems():
             row = item.row()
-            _def_name = self.strings_view.item(row, 0).text().split(".")[0]
+            _def_name = self.strings_view.item(row, 2).text()
             _tag_name = item.text()
             if self.ignored_def_tags.get(_def_name, None) is None:
                 self.ignored_def_tags[_def_name] = [_tag_name]
@@ -63,7 +63,7 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
     def add_to_ignored_tags(self):
         for item in self.strings_view.selectedItems():
             self.ignored_tag_list.append(item.text())
-            print(f"Added {item.text()} to ignored tags list.")
+            logging.info(f"Added {item.text()} to ignored tags list.")
         self.prepare_mod()
 
     def open_file_dialog_mods(self):
@@ -123,11 +123,12 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
                 row, 0
             ).text()  # Строка идентификатора для инъекции перевода
             _type = self.strings_view.item(row, 1).text()  # Тип запаковки
-            _text = self.strings_view.item(row, 5).text()  # Итоговый текст
+            _text = self.strings_view.item(row, 6).text()  # Итоговый текст
             # OriginalPath = self.strings_view.item(row, 6)
             _futurePath = self.strings_view.item(
-                row, 7
+                row, 8
             ).text()  # Будующий путь запаковки
+            
             if (
                 dictionary_of_strings[_type].get(_futurePath, None) is None
             ):  # Есть ли этот файл в запаковке
