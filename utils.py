@@ -4,7 +4,11 @@ import tomllib
 import tomli_w
 
 DEFAULT_CONFIG = {
-    "window": {"screen_size": "1280x720", "app_position": "0,0"},
+    "window": {
+        "screen_size": "1280x720",
+        "app_position": "0,0",
+        "latest_mod_settings_path": "",
+    },
     "parser": {
         "ignored_def_tags": [
             {
