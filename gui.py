@@ -127,5 +127,8 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.settings["parser"]["ignored_tag_list"] = sorted(self.ignored_tag_list)
         self.settings["window"]["screen_size"] = f"{self.width()}x{self.height()}"
         self.settings["window"]["app_position"] = f"{self.x()},{self.y()}"
+        self.settings["window"][
+            "latest_mod_settings_path"
+        ] = self.edit_mods_config_text.text()
         save_settings(self.settings)
         event.accept()

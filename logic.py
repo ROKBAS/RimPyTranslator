@@ -17,11 +17,20 @@ logger = logging.getLogger(__name__)
 
 class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
     def __init__(self, width: int, height: int, settings: dict):
+        self.settings_mod_folder = ""
         super().__init__(width, height, settings)
-
-        self.current_mods_folder = (
-            Path(os.path.expanduser("~")).joinpath("RimPyTranslator").joinpath("mods")
-        )
+        if self.settings["window"].get("latest_mod_settings_path"):
+            self.settings_mod_folder = self.settings["window"][
+                "latest_mod_settings_path"
+            ]
+        if not self.settings_mod_folder:
+            self.current_mods_folder = (
+                Path(os.path.expanduser("~"))
+                .joinpath("RimPyTranslator")
+                .joinpath("mods")
+            )
+        else:
+            self.current_mods_folder = Path(self.settings_mod_folder)
         self.current_mods_folder.mkdir(mode=511, parents=True, exist_ok=True)
         self.current_mod_path_list: List[str] | None = None
         self.current_mod_list: List[str] | None = None
@@ -43,8 +52,9 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
                 self.ignored_def_tags[_def_name] = [_tag_name]
             else:
                 self.ignored_def_tags[_def_name].append(_tag_name)
-            print(f"Added {_tag_name} from {_def_name} to ignored def name list.")
-            print(f"Current ignored list: {self.ignored_def_tags}")
+            logging.info(
+                f"Added {_tag_name} from {_def_name} to ignored def name list."
+            )
         self.prepare_mod()
 
     def add_to_ignored_tags(self):
