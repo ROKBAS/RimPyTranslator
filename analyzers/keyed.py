@@ -56,6 +56,7 @@ class KeyedAnalyzer(Analyzer):
         with open(original_file_path, "rb") as file:
             # Read each line in the file, readlines() returns a list of lines
             content = file.read().decode("utf-8")
+        _future_LanguageData = None
         if translation_file_path.exists():
             with open(translation_file_path, "rb") as file:
                 # Read each line in the file, readlines() returns a list of lines

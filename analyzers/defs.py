@@ -7,7 +7,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QTableWidgetItem
 
 from analyzers.base import Analyzer
-from utils import TRUES_TYPING
+from utils import TRUES_TYPING, open_xml_file
 
 logger = logging.getLogger(__name__)
 parser = etree.XMLParser(remove_comments=True)
@@ -36,13 +36,7 @@ class DefAnalyzer(Analyzer):
     ):
         if not str(original_file_path).endswith(".xml"):
             return
-        with open(original_file_path, "rb") as _file:
-            try:
-                content = _file.read().decode("utf-8")
-            except UnicodeEncodeError:
-                content = _file.read().decode("utf-8-sig")
-        with open(original_file_path, "w+", encoding="utf-8") as _file:
-            _file.write(content)
+        open_xml_file(original_file_path)
         tree = etree.parse(original_file_path, parser)
         root = tree.getroot()
         _defs = root.findall("*")

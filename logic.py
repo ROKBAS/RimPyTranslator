@@ -12,6 +12,7 @@ from analyzers.keyed import KeyedAnalyzer
 from analyzers.strings import StringsAnalyzer
 from creation import create_def_xml, create_keyed_xml
 from gui import Gui
+from utils import open_xml_file
 
 parser = etree.XMLParser(remove_comments=True)
 logger = logging.getLogger(__name__)
@@ -85,13 +86,7 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
             self.current_mod_path_list, self.current_mod_list
         ):
             _path_about = Path(mod_path).joinpath("About").joinpath("About.xml")
-            with open(_path_about, "rb") as _file:
-                try:
-                    content = _file.read().decode("utf-8")
-                except UnicodeEncodeError:
-                    content = _file.read().decode("utf-8-sig")
-            with open(_path_about, "w+", encoding="utf-8") as _file:
-                _file.write(content)
+            open_xml_file(_path_about)
             tree = etree.parse(_path_about, parser)
             root = tree.getroot()
             name = root.find("name").text

@@ -50,3 +50,13 @@ def save_settings(settings):
     )
     with open(_path, "wb+") as f:
         tomli_w.dump(settings, f)
+
+
+def open_xml_file(_path):
+    with open(_path, "rb") as _file:
+        try:
+            content = _file.read().decode("utf-8")
+        except UnicodeEncodeError:
+            content = _file.read().decode("utf-8-sig")
+    with open(_path, "w+", encoding="utf-8", newline="\n") as _file:
+        _file.write(content)
