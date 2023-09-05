@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import List
 
 from deep_translator import GoogleTranslator
+from lxml import etree
 from PySide6.QtWidgets import QFileDialog
 
 from analyzers.defs import DefAnalyzer
@@ -12,6 +13,7 @@ from analyzers.strings import StringsAnalyzer
 from creation import create_def_xml, create_keyed_xml
 from gui import Gui
 
+parser = etree.XMLParser(remove_comments=True)
 logger = logging.getLogger(__name__)
 
 
@@ -78,8 +80,22 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
         directory_pathes = list(Path(self.current_mods_folder).iterdir())
         self.current_mod_path_list = [str(_) for _ in directory_pathes if _.is_dir()]
         self.current_mod_list = [str(_.name) for _ in directory_pathes if _.is_dir()]
+        _table_mod_list = []
+        for mod_path, file_name in zip(self.current_mod_path_list, self.current_mod_list):
+            _path_about = Path(mod_path).joinpath("About").joinpath("About.xml")
+            with open(_path_about, "rb") as _file:
+                try:
+                    content = _file.read().decode("utf-8")
+                except UnicodeEncodeError:
+                    content = _file.read().decode("utf-8-sig")
+            with open(_path_about, "w+", encoding="utf-8") as _file:
+                _file.write(content)
+            tree = etree.parse(_path_about, parser)
+            root = tree.getroot()
+            name = root.find("name").text
+            _table_mod_list.append(f"{file_name} | {name}")
         self.file_list.clear()
-        self.file_list.addItems(self.current_mod_list)
+        self.file_list.addItems(_table_mod_list)
 
     def prepare_mod(self):
         self.strings_view.clearContents()
