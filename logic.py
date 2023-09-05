@@ -81,7 +81,9 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
         self.current_mod_path_list = [str(_) for _ in directory_pathes if _.is_dir()]
         self.current_mod_list = [str(_.name) for _ in directory_pathes if _.is_dir()]
         _table_mod_list = []
-        for mod_path, file_name in zip(self.current_mod_path_list, self.current_mod_list):
+        for mod_path, file_name in zip(
+            self.current_mod_path_list, self.current_mod_list
+        ):
             _path_about = Path(mod_path).joinpath("About").joinpath("About.xml")
             with open(_path_about, "rb") as _file:
                 try:
@@ -104,8 +106,6 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
             path = Path(self.current_mod_path_list[_item.row()])
             logging.info(f"Working at {path} on analyzing game mod folders.")
             self.analyze_base_mod(path)
-            for version in range(0, 5):
-                self.analyze_mod(path, f"1.{version}")
 
     def translate_strings(self):
         for item in self.strings_view.selectedItems():
@@ -150,18 +150,11 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
             logging.warning(f"Don't know how to patch strings files.")
 
     def analyze_base_mod(self, path_object: Path):
-        if path_object.joinpath("Defs").exists():
-            self.analyze_defs(path_object)
-        if path_object.joinpath("Languages").exists():
-            self.analyze_keyed(path_object)
-            self.analyze_strings(path_object)
-        logging.info(f"Analyzed base game.")
-
-    def analyze_mod(self, path_object: Path, version: str):
-        if path_object.joinpath(version).exists():
-            if path_object.joinpath(version).joinpath("Defs").exists():
-                self.analyze_defs(path_object.joinpath(version))
-            if path_object.joinpath(version).joinpath("Languages").exists():
-                self.analyze_keyed(path_object.joinpath(version))
-                self.analyze_strings(path_object.joinpath(version))
-        logging.info(f"Analyzed version {version}.")
+        for dirpath, dirnames, filenames in os.walk(path_object):
+            for dirname in dirnames:
+                if dirname == "Defs":
+                    self.analyze_defs(Path(dirpath))
+                if dirname == "Languages":
+                    self.analyze_keyed(Path(dirpath))
+                    self.analyze_strings(Path(dirpath))
+        logging.info(f"Analyzed game.")
