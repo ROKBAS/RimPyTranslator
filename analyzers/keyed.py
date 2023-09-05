@@ -53,10 +53,9 @@ class KeyedAnalyzer(Analyzer):
             return
         content = []
         # Read the XML file
-        with open(original_file_path, "r") as file:
+        with open(original_file_path, "rb") as file:
             # Read each line in the file, readlines() returns a list of lines
-            content = file.read()
-        # Combine the lines in the list into a string
+            content = file.read().decode("utf-8")
         bs_content = bs(content, features="lxml-xml")
         _LanguageData = bs_content.find("LanguageData")
         if not _LanguageData:

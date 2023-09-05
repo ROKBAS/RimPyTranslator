@@ -36,6 +36,13 @@ class DefAnalyzer(Analyzer):
     ):
         if not str(original_file_path).endswith(".xml"):
             return
+        with open(original_file_path, "rb") as _file:
+            try:
+                content = _file.read().decode("utf-8")
+            except UnicodeEncodeError:
+                content = _file.read().decode("utf-8-sig")
+        with open(original_file_path, "w+", encoding="utf-8") as _file:
+            _file.write(content)
         tree = etree.parse(original_file_path, parser)
         root = tree.getroot()
         _defs = root.findall("*")
@@ -60,7 +67,15 @@ class DefAnalyzer(Analyzer):
                         class_name = str(tag.getparent().tag)
                     else:
                         class_name = str(class_name.text)
-                    _id_of_sected_tag = str(tree.getpath(tag)).replace("]/", ".").replace("[", ".").replace("/", ".").replace("]", ".").strip().strip(".") # Containts Def. at start
+                    _id_of_sected_tag = (
+                        str(tree.getpath(tag))
+                        .replace("]/", ".")
+                        .replace("[", ".")
+                        .replace("/", ".")
+                        .replace("]", ".")
+                        .strip()
+                        .strip(".")
+                    )  # Containts Def. at start
                     lines.append(
                         (
                             _id_of_sected_tag[5:],
