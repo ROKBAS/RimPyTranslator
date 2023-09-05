@@ -79,42 +79,96 @@ class DefAnalyzer(Analyzer):
                             else str(tag.getparent().tag),
                         )
                     )
-            for _id, string, tag_name in lines:
-                found_forbidden_tag_in_class_bool = False
-                for _def_name, _tag_def_list in self.ignored_def_tags.items():
-                    if _id.find(_def_name) > -1:
-                        for _tag in _tag_def_list:
-                            if _id.find(_tag) != -1:
-                                found_forbidden_tag_in_class_bool = True
-                                break
-                    if found_forbidden_tag_in_class_bool:
-                        break
+            if translation_file_path.exists():
+                self.translate_mixed(
+                    original_file_path, translation_file_path, lines, class_name
+                )
+            else:
+                self.translate_only_existing(
+                    original_file_path, translation_file_path, lines, class_name
+                )
+
+    def translate_mixed(
+        self, original_file_path, translation_file_path, lines, class_name
+    ):
+        open_xml_file(translation_file_path)
+        _future_tree = etree.parse(translation_file_path, parser)
+        _future_root = _future_tree.getroot()
+        for _id, string, tag_name in lines:
+            found_forbidden_tag_in_class_bool = False
+            for _def_name, _tag_def_list in self.ignored_def_tags.items():
+                if _id.find(_def_name) > -1:
+                    for _tag in _tag_def_list:
+                        if _id.find(_tag) != -1:
+                            found_forbidden_tag_in_class_bool = True
+                            break
                 if found_forbidden_tag_in_class_bool:
-                    continue
-                row = self.strings_view.rowCount()
-                self.strings_view.insertRow(row)
-                _id_item = QTableWidgetItem(_id)
-                _id_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-                self.strings_view.setItem(row, 0, _id_item)
-                _type_item = QTableWidgetItem("Defs")
-                _type_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-                self.strings_view.setItem(row, 1, _type_item)
-                _tag_name_item = QTableWidgetItem(tag_name)
-                # _tag_name_item.setFlags(Qt.ItemFlag.ItemIsEnabled),
-                self.strings_view.setItem(row, 2, _tag_name_item)
-                cs_name_item = QTableWidgetItem(class_name)
-                # cs_name_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
-                self.strings_view.setItem(row, 3, cs_name_item)
-                ol_string_item = QTableWidgetItem(string)
-                ol_string_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-                self.strings_view.setItem(row, 4, ol_string_item)
-                self.strings_view.setItem(row, 5, QTableWidgetItem(string))
-                of_ph_item = QTableWidgetItem(str(original_file_path))
-                of_ph_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-                self.strings_view.setItem(row, 6, of_ph_item)
-                tf_fp_item = QTableWidgetItem(str(translation_file_path))
-                tf_fp_item.setFlags(Qt.ItemFlag.ItemIsEditable)
-                self.strings_view.setItem(row, 7, tf_fp_item)
+                    break
+            if found_forbidden_tag_in_class_bool:
+                continue
+            _existing_def = _future_root.find(_id)
+            row = self.strings_view.rowCount()
+            self.strings_view.insertRow(row)
+            _id_item = QTableWidgetItem(_id)
+            _id_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.strings_view.setItem(row, 0, _id_item)
+            _type_item = QTableWidgetItem("Defs")
+            _type_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.strings_view.setItem(row, 1, _type_item)
+            _tag_name_item = QTableWidgetItem(tag_name)
+            self.strings_view.setItem(row, 2, _tag_name_item)
+            cs_name_item = QTableWidgetItem(class_name)
+            self.strings_view.setItem(row, 3, cs_name_item)
+            ol_string_item = QTableWidgetItem(string)
+            ol_string_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.strings_view.setItem(row, 4, ol_string_item)
+            if len(_existing_def.text) >= 0:
+                string = _existing_def.text
+            self.strings_view.setItem(row, 5, QTableWidgetItem(string))
+            of_ph_item = QTableWidgetItem(str(original_file_path))
+            of_ph_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.strings_view.setItem(row, 6, of_ph_item)
+            tf_fp_item = QTableWidgetItem(str(translation_file_path))
+            tf_fp_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.strings_view.setItem(row, 7, tf_fp_item)
+
+    def translate_only_existing(
+        self, original_file_path, translation_file_path, lines, class_name
+    ):
+        for _id, string, tag_name in lines:
+            found_forbidden_tag_in_class_bool = False
+            for _def_name, _tag_def_list in self.ignored_def_tags.items():
+                if _id.find(_def_name) > -1:
+                    for _tag in _tag_def_list:
+                        if _id.find(_tag) != -1:
+                            found_forbidden_tag_in_class_bool = True
+                            break
+                if found_forbidden_tag_in_class_bool:
+                    break
+            if found_forbidden_tag_in_class_bool:
+                continue
+            row = self.strings_view.rowCount()
+            self.strings_view.insertRow(row)
+            _id_item = QTableWidgetItem(_id)
+            _id_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.strings_view.setItem(row, 0, _id_item)
+            _type_item = QTableWidgetItem("Defs")
+            _type_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.strings_view.setItem(row, 1, _type_item)
+            _tag_name_item = QTableWidgetItem(tag_name)
+            self.strings_view.setItem(row, 2, _tag_name_item)
+            cs_name_item = QTableWidgetItem(class_name)
+            self.strings_view.setItem(row, 3, cs_name_item)
+            ol_string_item = QTableWidgetItem(string)
+            ol_string_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.strings_view.setItem(row, 4, ol_string_item)
+            self.strings_view.setItem(row, 5, QTableWidgetItem(string))
+            of_ph_item = QTableWidgetItem(str(original_file_path))
+            of_ph_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.strings_view.setItem(row, 6, of_ph_item)
+            tf_fp_item = QTableWidgetItem(str(translation_file_path))
+            tf_fp_item.setFlags(Qt.ItemFlag.ItemIsEditable)
+            self.strings_view.setItem(row, 7, tf_fp_item)
 
     def inject_translation_files(self, def_path: Path, injected_def_path: Path):
         if def_path.is_dir():  # если оригинальный def папка
