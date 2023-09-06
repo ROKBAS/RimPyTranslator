@@ -15,7 +15,7 @@
 
 ## Use
 
-- PLEASE DOWNLOAD LATEST SETTINGS FROM GITHUB AND REPLACE IT!!!
+- PLEASE DOWNLOAD LATEST SETTINGS FROM GITHUB AND REPLACE THEM!!!
 - Start RimPyTranslator.
 - Select mods folder or use contained one from settings.
 - Select mod that you need to translate, this column also supports multiselect.
