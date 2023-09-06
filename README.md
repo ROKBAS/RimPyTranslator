@@ -15,14 +15,15 @@
 
 ## Use
 
-- PLEASE DOWNLOAD LATEST SETTINGS FROM GITHUB AND REPLACE IT!!!
+- PLEASE DOWNLOAD LATEST SETTINGS FROM GITHUB AND REPLACE THEM!!!
 - Start RimPyTranslator.
 - Select mods folder or use contained one from settings.
-- Select mod that you need to translate.
+- Select mod that you need to translate, this column also supports multiselect.
 - Press "Prepare" button, this will convert all convertable strings.
-- Select string from "Translated text" column and translate it.
-- Press "Translate" button, to help you with selected text translation.
-- When you finished your translation, press "Patch" button, this will create translation files in mod folder.
+- To save your progress between your translation session press "Patch" and after reopening it will open your translated strings.
+- Select string from "Translated text" column and translate it, this column also supports multiselect.
+- You can press "Translate" button, to help you with selected text translation. (Please select translation original language and preferred).
+- When you finished your translation, press "Patch" button, this will create translation files in mod/mods folder/folders.
 - You are awesome.
 
 If you see some mess string:
