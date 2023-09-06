@@ -4,10 +4,7 @@ app_position = "50,50"
 latest_mod_settings_path = ""
 
 [parser]
-ignored_tag_list = [
-    "defName",
-    "techLevel"
-]
+ignored_tag_list = ["defName", "techLevel"]
 
 [[parser.ignored_def_tags]]
 def_name = "ThingDef"
@@ -31,6 +28,39 @@ tag_list = [
     "ingestSound",
     "drugCategory",
     "need",
+    "bodyPartGroups",
+    "wornGraphicPath",
+    "layers",
+    "tags",
+    "gender",
+    "unfinishedThingDef",
+    "effectWorking",
+    "soundWorking",
+    "thingClass",
+    "category",
+    "altitudeLayer",
+    "tickerType",
+    "soundWorking",
+    "categories",
+    "disallowedThingDefs",
+    "tradeability",
+    "stuffCategories",
+    "shaderType",
+    "ingestEffect",
+    "placeWorkers",
+    "designationHotKey",
+    "compClass",
+    "buildingTags",
+    "sowTag",
+    "spawnedConceptLearnOpportunity",
+    "inspectorTabs",
+    "surfaceType",
+    "interactionCellOffset",
+    "passability",
+    "designationCategory",
+    "size",
+    "drawSize",
+    "partsToAffect",
 ]
 
 [[parser.ignored_def_tags]]
@@ -56,18 +86,11 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "BodyPartDef"
-tag_list = [
-    "tags",
-    "key",
-]
+tag_list = ["tags", "key"]
 
 [[parser.ignored_def_tags]]
 def_name = "BodyDef"
-tag_list = [
-    "height",
-    "depth",
-    "groups",
-]
+tag_list = ["height", "depth", "groups"]
 
 [[parser.ignored_def_tags]]
 def_name = "WorkGiverDef"
@@ -93,15 +116,13 @@ tag_list = [
     "distRange",
     "sustainLoopDurationRange",
     "sustainIntervalRange",
+    "volumeRange",
+    "pitchRange",
 ]
 
 [[parser.ignored_def_tags]]
 def_name = "ThinkTreeDef"
-tag_list = [
-    "treeDef",
-    "subNodes",
-    "thinkRoot",
-]
+tag_list = ["treeDef", "subNodes", "thinkRoot"]
 
 [[parser.ignored_def_tags]]
 def_name = "ThoughtDef"
@@ -118,11 +139,7 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "TraitDef"
-tag_list = [
-    "allowedMeditationFocusTypes",
-    "traitValues",
-    "key",
-]
+tag_list = ["allowedMeditationFocusTypes", "traitValues", "key"]
 
 [[parser.ignored_def_tags]]
 def_name = "RecipeDef"
@@ -142,36 +159,26 @@ tag_list = [
     "workSkill",
     "workerClass",
     "removesHediff",
+    "effectWorking",
+    "ingredientValueGetterClass",
+    "soundWorking",
 ]
 
 [[parser.ignored_def_tags]]
 def_name = "DontShaveYourHead"
-tag_list = [
-    "texturePathList",
-]
+tag_list = ["texturePathList"]
 
 [[parser.ignored_def_tags]]
 def_name = "SpecialThingFilterDef"
-tag_list = [
-    "parentCategory",
-    "saveKey",
-]
+tag_list = ["parentCategory", "saveKey"]
 
 [[parser.ignored_def_tags]]
 def_name = "HugsLib"
-tag_list = [
-    "content",
-    "modNameReadable",
-    "modIdentifier",
-    "linkUrl",
-]
+tag_list = ["content", "modNameReadable", "modIdentifier", "linkUrl"]
 
 [[parser.ignored_def_tags]]
 def_name = "ResearchProjectDef"
-tag_list = [
-    "prerequisites",
-    "tab",
-]
+tag_list = ["prerequisites", "tab"]
 
 [[parser.ignored_def_tags]]
 def_name = "Merthsoft"
@@ -195,10 +202,7 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "ThingCategoryDef"
-tag_list = [
-    "iconPath",
-    "parent",
-]
+tag_list = ["iconPath", "parent"]
 
 [[parser.ignored_def_tags]]
 def_name = "TerrainDef"
@@ -218,43 +222,27 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "DesignationCategoryDef"
-tag_list = [
-    "specialDesignatorClasses",
-]
+tag_list = ["specialDesignatorClasses"]
 
 [[parser.ignored_def_tags]]
 def_name = "WorkTypeDef"
-tag_list = [
-    "workTags",
-]
+tag_list = ["workTags"]
 
 [[parser.ignored_def_tags]]
 def_name = "DesignationDef"
-tag_list = [
-    "texturePath",
-    "targetType",
-]
+tag_list = ["texturePath", "targetType"]
 
 [[parser.ignored_def_tags]]
 def_name = "MainButtonDef"
-tag_list = [
-    "tabWindowClass",
-    "defaultHotKey",
-    "iconPath",
-]
+tag_list = ["tabWindowClass", "defaultHotKey", "iconPath"]
 
 [[parser.ignored_def_tags]]
 def_name = "KeyBindingDef"
-tag_list = [
-    "defaultKeyCodeA",
-]
+tag_list = ["defaultKeyCodeA"]
 
 [[parser.ignored_def_tags]]
 def_name = "AnimalBehaviours"
-tag_list = [
-    "disabledFromQuestsPawns",
-    "unaffectedBySelfTamePawns",
-]
+tag_list = ["disabledFromQuestsPawns", "unaffectedBySelfTamePawns"]
 
 [[parser.ignored_def_tags]]
 def_name = "DamageDef"
@@ -282,15 +270,14 @@ tag_list = [
     "capacity",
     "hediffClass",
     "defaultLabelColor",
+    "stateEffecter",
+    "severityIndices",
+    "thingToSpawn",
 ]
 
 [[parser.ignored_def_tags]]
 def_name = "InteractionDef"
-tag_list = [
-    "interactionMote",
-    "customRequirementHandler",
-    "symbol",
-]
+tag_list = ["interactionMote", "customRequirementHandler", "symbol"]
 
 [[parser.ignored_def_tags]]
 def_name = "ManeuverDef"
@@ -307,26 +294,15 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "QuestScriptDef"
-tag_list = [
-    "successHistoryEvent",
-    "failedOrExpiredHistoryEvent",
-    "root",
-]
+tag_list = ["successHistoryEvent", "failedOrExpiredHistoryEvent", "root"]
 
 [[parser.ignored_def_tags]]
 def_name = "VSEWW"
-tag_list = [
-    "pawnkind",
-    "intelligence",
-    "tradeTag",
-]
+tag_list = ["pawnkind", "intelligence", "tradeTag"]
 
 [[parser.ignored_def_tags]]
 def_name = "RulePackDef"
-tag_list = [
-    "include",
-    "rulesFiles",
-]
+tag_list = ["include", "rulesFiles"]
 
 [[parser.ignored_def_tags]]
 def_name = "GameConditionDef"
@@ -348,9 +324,7 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "ThingSetMakerDef"
-tag_list = [
-    "root",
-]
+tag_list = ["root"]
 
 [[parser.ignored_def_tags]]
 def_name = "FactionDef"
@@ -363,9 +337,7 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "MVCF"
-tag_list = [
-    "ActivateFeatures",
-]
+tag_list = ["ActivateFeatures"]
 
 [[parser.ignored_def_tags]]
 def_name = "TraderKindDef"
@@ -375,6 +347,10 @@ tag_list = [
     "tag",
     "categoryDef",
     "tradeTag",
+    "kindCountRange",
+    "totalPriceRange",
+    "stockGenerators",
+    "countRange",
 ]
 
 [[parser.ignored_def_tags]]
@@ -401,20 +377,11 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "IdeoIconDef"
-tag_list = [
-    "memes",
-    "iconPath",
-    "defName",
-]
+tag_list = ["memes", "iconPath", "defName"]
 
 [[parser.ignored_def_tags]]
 def_name = "RitualVisualEffectDef"
-tag_list = [
-    "tintColor",
-    "area",
-    "rotation",
-    "fleckDef",
-]
+tag_list = ["tintColor", "area", "rotation", "fleckDef"]
 
 [[parser.ignored_def_tags]]
 def_name = "StyleCategoryDef"
@@ -427,30 +394,19 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "ThingStyleDef"
-tag_list = [
-    "drawSize",
-    "graphicClass",
-]
+tag_list = ["drawSize", "graphicClass"]
 
 [[parser.ignored_def_tags]]
 def_name = "IdeoStoryPatternDef"
-tag_list = [
-    "include",
-    "segments",
-]
+tag_list = ["include", "segments"]
 
 [[parser.ignored_def_tags]]
 def_name = "IssueDef"
-tag_list = [
-    "iconPath",
-]
+tag_list = ["iconPath"]
 
 [[parser.ignored_def_tags]]
 def_name = "PreceptDef"
-tag_list = [
-    "impact",
-    "issue",
-]
+tag_list = ["impact", "issue"]
 
 [[parser.ignored_def_tags]]
 def_name = "Privacy_Please"
@@ -483,46 +439,33 @@ tag_list = [
 
 [[parser.ignored_def_tags]]
 def_name = "DutyDef"
-tag_list = [
-    "subNodes",
-    "hook",
-]
+tag_list = ["subNodes", "hook"]
 
 [[parser.ignored_def_tags]]
 def_name = "GatheringDef"
-tag_list = [
-    "gatherSpotDefs",
-]
+tag_list = ["gatherSpotDefs"]
 
 [[parser.ignored_def_tags]]
 def_name = "ConceptDef"
-tag_list = [
-    "highlightTags",
-]
+tag_list = ["highlightTags"]
 
 [[parser.ignored_def_tags]]
 def_name = "GeneDef"
-tag_list = [
-    "iconPath",
-    "exclusionTags",
-]
+tag_list = ["iconPath", "exclusionTags"]
 
 [[parser.ignored_def_tags]]
 def_name = "JobDef"
-tag_list = [
-    "driverClass"
-]
-
+tag_list = ["driverClass"]
 
 [[parser.ignored_def_tags]]
 def_name = "ChemicalDef"
-tag_list = [
-    "toleranceHediff",
-    "addictionHediff",
-]
+tag_list = ["toleranceHediff", "addictionHediff"]
 
 [[parser.ignored_def_tags]]
 def_name = "NeedDef"
-tag_list = [
-    "needClass",
-]
+tag_list = ["needClass"]
+
+
+[[parser.ignored_def_tags]]
+def_name = "EffecterDef"
+tag_list = ["spawnLocType", "speed", "fleckDef", "scale", "subEffecterClass"]
