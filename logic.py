@@ -89,7 +89,11 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
             open_xml_file(_path_about)
             tree = etree.parse(_path_about, parser)
             root = tree.getroot()
-            name = root.find("name").text
+            name = root.find("name")
+            if name is not None:
+                name = name.text
+            else:
+                name = "uknown"
             _table_mod_list.append(f"{file_name} | {name}")
         self.file_list.clear()
         self.file_list.addItems(_table_mod_list)
@@ -128,7 +132,7 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
             _futurePath = self.strings_view.item(
                 row, 8
             ).text()  # Будующий путь запаковки
-            
+
             if (
                 dictionary_of_strings[_type].get(_futurePath, None) is None
             ):  # Есть ли этот файл в запаковке
