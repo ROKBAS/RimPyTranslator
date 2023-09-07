@@ -1,4 +1,3 @@
-from copy import copy
 import logging
 import re
 from pathlib import Path
@@ -41,8 +40,6 @@ class DefAnalyzer(Analyzer):
         if _defs is None:
             return
         for _def in _defs:
-            if _def is None:
-                continue
             lines = []
             for tag in _def.iter():
                 if (
@@ -51,8 +48,6 @@ class DefAnalyzer(Analyzer):
                     and re.sub(r"\s", "", str(tag.text))
                     and not re.match("^[-+]?[0-9\.\ ]*$", str(tag.text))
                     and str(tag.text) not in TRUES_TYPING
-                    and str(tag.tag) not in self.ignored_tag_list
-                    and str(tag.getparent().tag) not in self.ignored_tag_list
                 ):
                     class_name = _def.find(".//defName")
                     if class_name is None:
@@ -70,6 +65,7 @@ class DefAnalyzer(Analyzer):
                     )
 
                     _base_def_name = str(_def.tag)  # Base def
+                    _id_of_sected_tag = f"{class_name}.{_id_of_sected_tag}"
                     _def_index = _id_of_sected_tag.find("Def")
                     if _def_index == -1:
                         _def_index = _id_of_sected_tag.find("def")
@@ -101,13 +97,19 @@ class DefAnalyzer(Analyzer):
                                 + ".0."
                                 + _after_li_string
                             )
+
+                    _tag_name = (
+                        str(tag.tag)
+                        if str(tag.tag) != "li"
+                        else str(tag.getparent().tag)
+                    )
+                    if _tag_name in self.ignored_tag_list:
+                        continue
                     lines.append(
                         (
                             _id_of_sected_tag,
                             str(tag.text),
-                            str(tag.tag)
-                            if str(tag.tag) != "li"
-                            else str(tag.getparent().tag),
+                            _tag_name,
                             class_name,
                             _base_def_name,
                             translation_file_path.joinpath(_base_def_name).joinpath(

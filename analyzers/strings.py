@@ -1,8 +1,5 @@
 import logging
 from pathlib import Path
-
-from PySide6.QtWidgets import QTableWidgetItem
-
 from analyzers.base import Analyzer
 
 logger = logging.getLogger(__name__)
