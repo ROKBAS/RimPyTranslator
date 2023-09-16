@@ -103,11 +103,9 @@ SETTINGS_FILE_NAME = "settings.toml"
 
 
 def initiate_settings():
-    _path = (
-        Path(os.path.expanduser("~"))
-        .joinpath("RimPyTranslator")
-        .joinpath(SETTINGS_FILE_NAME)
-    )
+    _path = Path(os.path.expanduser("~")).joinpath("RimPyTranslator")
+    _path.mkdir(mode=777, parents=True, exist_ok=True)
+    _path = _path.joinpath(SETTINGS_FILE_NAME)
     if not os.path.exists(_path):
         with open(_path, "wb") as f:
             tomli_w.dump(DEFAULT_CONFIG, f)
