@@ -83,6 +83,7 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.translation_language_box = QComboBox(self.edit_widget)
         for item in Languages:
             self.translation_language_box.addItem(item.name)
+        self.translation_language_box.setCurrentIndex(1)
         self.prepare_button = QPushButton(text="Prepare", parent=self.edit_widget)
         self.dev_layout.addWidget(self.prepare_button)
         self.translate_button = QPushButton(text="Translate", parent=self.edit_widget)
