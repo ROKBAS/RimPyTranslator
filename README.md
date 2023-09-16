@@ -26,10 +26,11 @@
 - When you finished your translation, press "Patch" button, this will create translation files in mod/mods folder/folders.
 - You are awesome.
 
-If you see some mess string:
+If you doesn't see some string:
 
-1. Select needed tag in column "Tag name" then use "Add to def ignored tags" button.
-2. If you think this tag needs to be ignored globaly use "Add to ignored tags list"
+1. Mark "Show All" to be checked. (Save your progress by patching).
+2. Select needed tag in column "Tag name" then use "Add to allowed tags" button.
+3. Uncheck mark "Show all".
 
 ## Settings
 
