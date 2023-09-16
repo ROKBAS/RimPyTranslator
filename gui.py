@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
     QToolBar,
     QWidget,
     QCheckBox,
+    QProgressBar,
 )
 
 from custom_widgets import QHLine
@@ -110,6 +111,10 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         )
         self.dev_layout.addWidget(self.translation_language_box)
         self.dev_layout.addWidget(QHLine(parent=self.edit_widget))
+        self.statusBar().showMessage("Ready")
+        self.progress_bar = QProgressBar(self)
+        self.statusBar().addPermanentWidget(self.progress_bar)
+        self.progress_bar.setValue(1)
 
     def closeEvent(self, event: QCloseEvent):
         self.settings["parser"]["allowed_tag_list"] = sorted(self.allowed_tag_list)
