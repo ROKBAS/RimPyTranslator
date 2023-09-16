@@ -37,7 +37,7 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
             )
         else:
             self.current_mods_folder = Path(self.settings_mod_folder)
-        self.current_mods_folder.mkdir(mode=511, parents=True, exist_ok=True)
+        self.current_mods_folder.mkdir(mode=777, parents=True, exist_ok=True)
         self.current_mod_path_list: List[str] | None = None
         self.current_mod_list: List[str] | None = None
         self.edit_mods_config_text.setText(f"{self.current_mods_folder}")
