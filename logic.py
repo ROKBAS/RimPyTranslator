@@ -45,6 +45,8 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
         self.patch_button.clicked.connect(self.patch_mod)
         self.allowed_tags_button.clicked.connect(self.add_to_allowed_tags)
         self.filter_cs_button.stateChanged.connect(self.onStateChanged)
+        self.original_language = self.original_language_box.currentText()
+        self.translation_language = self.translation_language_box.currentText()
         self.pick_mods()
 
     def onStateChanged(self):
@@ -102,8 +104,8 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
     def translate_strings(self):
         for item in self.strings_view.selectedItems():
             translated = GoogleTranslator(
-                source=self.original_language_box.currentText(),
-                target=self.translation_language_box.currentText(),
+                source=self.original_language,
+                target=self.translation_language,
             ).translate(item.text())
             item.setText(translated)
 
