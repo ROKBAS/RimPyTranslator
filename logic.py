@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
     def __init__(self, width: int, height: int, settings: dict):
+        self.show_all_strings = False
         self.settings_mod_folder = ""
         super().__init__(width, height, settings)
         if self.settings["window"].get("latest_mod_settings_path"):
@@ -42,29 +43,21 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
         self.prepare_button.clicked.connect(self.prepare_mod)
         self.translate_button.clicked.connect(self.translate_strings)
         self.patch_button.clicked.connect(self.patch_mod)
-        self.ign_cs_button.clicked.connect(self.add_to_ignored_classes)
-        self.ign_tags_button.clicked.connect(self.add_to_ignored_tags)
+        self.allowed_tags_button.clicked.connect(self.add_to_allowed_tags)
+        self.filter_cs_button.stateChanged.connect(self.onStateChanged)
         self.pick_mods()
 
-    def add_to_ignored_classes(self):
-        for item in self.strings_view.selectedItems():
-            row = item.row()
-            _def_name = self.strings_view.item(row, 2).text()
-            _tag_name = item.text()
-            if self.ignored_def_tags.get(_def_name, None) is None:
-                self.ignored_def_tags[_def_name] = [_tag_name]
-            else:
-                self.ignored_def_tags[_def_name].append(_tag_name)
-            logging.info(
-                f"Added {_tag_name} from {_def_name} to ignored def name list."
-            )
+    def onStateChanged(self):
+        if self.filter_cs_button.isChecked():
+            self.show_all_strings = True
+        else:
+            self.show_all_strings = False
         self.prepare_mod()
 
-    def add_to_ignored_tags(self):
+    def add_to_allowed_tags(self):
         for item in self.strings_view.selectedItems():
-            self.ignored_tag_list.append(item.text())
+            self.allowed_tag_list.append(item.text())
             logging.info(f"Added {item.text()} to ignored tags list.")
-        self.prepare_mod()
 
     def open_file_dialog_mods(self):
         dialog = QFileDialog(self)
@@ -147,7 +140,7 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
         for patch_path in list(dictionary_of_strings["Keyed"].keys()):
             create_keyed_xml(dictionary_of_strings["Keyed"][patch_path], patch_path)
         for patch_path in list(dictionary_of_strings["Strings"].keys()):
-            logging.warning(f"Don't know how to patch strings files.")
+            logging.warning("Don't know how to patch strings files.")
 
     def analyze_base_mod(self, path_object: Path):
         for dirpath, dirnames, filenames in os.walk(path_object):
@@ -157,4 +150,4 @@ class Logic(DefAnalyzer, KeyedAnalyzer, StringsAnalyzer, Gui):
                 if dirname == "Languages":
                     self.analyze_keyed(Path(dirpath))
                     self.analyze_strings(Path(dirpath))
-        logging.info(f"Analyzed game.")
+        logging.info("Analyzed game.")

@@ -51,60 +51,19 @@ class DefAnalyzer(Analyzer):
                 ):
                     class_name = _def.find(".//defName")
                     if class_name is None:
-                        class_name = str(tag.getparent().tag)
-                    else:
-                        class_name = str(class_name.text)
-                    _id_of_sected_tag = (
-                        str(tree.getelementpath(tag))
-                        .replace("]/", ".")
-                        .replace("[", ".")
-                        .replace("/", ".")
-                        .replace("]", ".")
-                        .strip()
-                        .strip(".")
-                    )
-
+                        continue
+                    class_name = str(class_name.text)
                     _base_def_name = str(_def.tag)  # Base def
+                    _id_of_sected_tag = self.prepare_id(tree, tag, _base_def_name)
                     _id_of_sected_tag = f"{class_name}.{_id_of_sected_tag}"
-                    _def_index = _id_of_sected_tag.find("Def")
-                    if _def_index == -1:
-                        _def_index = _id_of_sected_tag.find("def")
-                    _id_of_sected_tag = _id_of_sected_tag[_def_index + 3 :]
-                    _id_of_sected_tag = f"{class_name}{_id_of_sected_tag}"
-                    _split_id = _id_of_sected_tag.split(".")
-                    if len(_split_id) > 1 and _split_id[1].isdigit():
-                        del _split_id[1]
-                    _id_of_sected_tag = ".".join(_split_id)
-                    _split_id = _id_of_sected_tag.split(".")
-                    for num, value in enumerate(_split_id):
-                        if value.isdigit():
-                            _split_id[num] = str(int(value) - 1)
-                    _id_of_sected_tag = ".".join(_split_id)
-                    while _id_of_sected_tag.find(".li.") > -1:
-                        _idx_of_li = _id_of_sected_tag.find(
-                            ".li."
-                        )  # index of li elemnt
-                        _after_li_string = _id_of_sected_tag[
-                            _idx_of_li + 4 : len(_id_of_sected_tag)
-                        ]
-                        if _after_li_string.split(".")[0].isdigit():
-                            _id_of_sected_tag = (
-                                _id_of_sected_tag[: _idx_of_li + 1] + _after_li_string
-                            )
-                        else:
-                            _id_of_sected_tag = (
-                                _id_of_sected_tag[:_idx_of_li]
-                                + ".0."
-                                + _after_li_string
-                            )
-
                     _tag_name = (
                         str(tag.tag)
                         if str(tag.tag) != "li"
                         else str(tag.getparent().tag)
                     )
-                    if _tag_name in self.ignored_tag_list:
-                        continue
+                    if self.show_all_strings is False:
+                        if _tag_name not in self.allowed_tag_list:
+                            continue
                     lines.append(
                         (
                             _id_of_sected_tag,
@@ -121,6 +80,33 @@ class DefAnalyzer(Analyzer):
                 return
             self.translate_mixed(original_file_path, lines)
 
+    def prepare_id(self, tree, tag, def_name):
+        raw_string = (
+            str(tree.getelementpath(tag))
+            .replace("]/", ".")
+            .replace("[", ".")
+            .replace("/", ".")
+            .replace("]", ".")
+        )
+        result = []
+        raw_string = raw_string.replace(f"{def_name}.", "")
+        splitted_string = raw_string.split(".")
+        for num, word in enumerate(splitted_string, start=1):
+            if num == 1 and word.isdigit():
+                continue
+            if word.isdigit():
+                word = str(int(word) - 1)
+            elif word == "li":
+                if num + 1 >= len(splitted_string):
+                    word = "0"
+                elif num + 1 < len(splitted_string):
+                    if splitted_string[num + 1].isdigit():
+                        continue
+                    elif splitted_string[num + 1]:
+                        continue
+            result.append(word)
+        return ".".join(result)
+
     def translate_mixed(self, original_file_path, lines):
         for (
             _id,
@@ -135,19 +121,8 @@ class DefAnalyzer(Analyzer):
                 open_xml_file(translation_file_path)
                 _future_tree = etree.parse(translation_file_path, parser)
                 _future_root = _future_tree.getroot()
-            found_forbidden_tag_in_class_bool = False
-            for _def_name, _tag_def_list in self.ignored_def_tags.items():
-                if base_def_name.find(_def_name) > -1:
-                    for _tag in _tag_def_list:
-                        if tag_name.find(_tag) != -1:
-                            found_forbidden_tag_in_class_bool = True
-                            break
-                if found_forbidden_tag_in_class_bool:
-                    break
-            if found_forbidden_tag_in_class_bool:
-                continue
             _existing_def = None
-            if _future_root:
+            if _future_root is not None:
                 _existing_def = _future_root.find(_id)
             row = self.strings_view.rowCount()
             self.strings_view.insertRow(row)

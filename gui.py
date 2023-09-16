@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (
     QTableWidget,
     QToolBar,
     QWidget,
+    QCheckBox,
 )
 
 from custom_widgets import QHLine
@@ -28,11 +29,7 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         super().__init__()
         self.setWindowIcon(QIcon("./resources/icon.ico"))
         self.settings = settings
-        _ignored_def_tags = settings["parser"].get("ignored_def_tags", {})
-        self.ignored_def_tags: dict = {
-            f'{item["def_name"]}': item["tag_list"] for item in _ignored_def_tags
-        }
-        self.ignored_tag_list: list[str] = settings["parser"]["ignored_tag_list"]
+        self.allowed_tag_list: list[str] = settings["parser"]["allowed_tag_list"]
         _width, _height = self.settings["window"]["screen_size"].split("x")
         _a_x, _a_y = self.settings["window"]["app_position"].split(",")
         self.app_width = int(_width) if _width else width
@@ -56,7 +53,7 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
             [
                 "Identifier",  # 0
                 "Type",  # 1
-                "Def name", # 2
+                "Def name",  # 2
                 "Tag name",  # 3
                 "Class name",  # 4
                 "Original Text",  # 5
@@ -92,19 +89,15 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         self.dev_layout.addWidget(self.translate_button)
         self.patch_button = QPushButton(text="Patch", parent=self.edit_widget)
         self.dev_layout.addWidget(self.patch_button)
-        self.ign_cs_button = QPushButton(
-            text="Add to def ignored tags", parent=self.edit_widget
+        self.filter_cs_button = QCheckBox(
+            text="Show all strings", parent=self.edit_widget
         )
-        self.dev_layout.addWidget(self.ign_cs_button)
-        self.ign_tags_button = QPushButton(
-            text="Add to ignored tags list", parent=self.edit_widget
+        self.filter_cs_button.setChecked(False)
+        self.dev_layout.addWidget(self.filter_cs_button)
+        self.allowed_tags_button = QPushButton(
+            text="Add to allowd tags list", parent=self.edit_widget
         )
-        self.dev_layout.addWidget(self.ign_tags_button)
-        self.highligth_untranslated_mods_button = QPushButton(
-            text="Highlight untranslated mods", parent=self.edit_widget
-        )
-        self.highligth_untranslated_mods_button.setEnabled(False)
-        self.dev_layout.addWidget(self.highligth_untranslated_mods_button)
+        self.dev_layout.addWidget(self.allowed_tags_button)
         self.dev_layout.addWidget(QHLine(parent=self.edit_widget))
         self.dev_layout.addWidget(
             QLabel(text="Selectel original language", parent=self.edit_widget)
@@ -116,16 +109,9 @@ class Gui(QMainWindow):  # Made GUI Base class for all logic
         )
         self.dev_layout.addWidget(self.translation_language_box)
         self.dev_layout.addWidget(QHLine(parent=self.edit_widget))
-        self.settings_button = QPushButton(text="Options", parent=self.edit_widget)
-        self.settings_button.setEnabled(False)
-        self.dev_layout.addWidget(self.settings_button)
 
     def closeEvent(self, event: QCloseEvent):
-        self.settings["parser"]["ignored_def_tags"] = [
-            {"def_name": _def_name, "tag_list": _tag_list}
-            for _def_name, _tag_list in self.ignored_def_tags.items()
-        ]
-        self.settings["parser"]["ignored_tag_list"] = sorted(self.ignored_tag_list)
+        self.settings["parser"]["allowed_tag_list"] = sorted(self.allowed_tag_list)
         self.settings["window"]["screen_size"] = f"{self.width()}x{self.height()}"
         self.settings["window"]["app_position"] = f"{self.x()},{self.y()}"
         self.settings["window"][
